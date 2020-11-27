@@ -46,71 +46,74 @@ namespace Advent
 
         static void Main(string[] args)
         {
-            IEnumerable<IDay> daysToRun = null;
+            ReflectionRunner rr = new ReflectionRunner();
+            rr.RunLatest();
+
+            //IEnumerable<IDay> daysToRun = null;
             
-            if (s_runFirstDay)
-            {
-                daysToRun = new IDay[] { s_allDays[0] };
-            }
+            //if (s_runFirstDay)
+            //{
+            //    daysToRun = new IDay[] { s_allDays[0] };
+            //}
 
-            if (daysToRun != null)
-            {
-                int dayCount = daysToRun.Count();
-                foreach (var day in daysToRun)
-                {
-                    Console.WriteLine($"Running tests for {day.ToString()}");
-                    Console.WriteLine();
-                    day.Initialize();
-                    if (dayCount == 1)
-                    {
-                        RunAndProfile(day);
-                    }
-                    else
-                    {
-                        Run(day);
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine("Press any key to continue . . .");
-                Console.ReadKey();
-            }
-            else
-            {
-                bool keepGoing = true;
-                var initialized = new HashSet<IDay>();
-                int selection = 0;
-                while (keepGoing)
-                {
-                    selection = Menu.RunMenu(s_allDays, selection);
+            //if (daysToRun != null)
+            //{
+            //    int dayCount = daysToRun.Count();
+            //    foreach (var day in daysToRun)
+            //    {
+            //        Console.WriteLine($"Running tests for {day.ToString()}");
+            //        Console.WriteLine();
+            //        day.Initialize();
+            //        if (dayCount == 1)
+            //        {
+            //            RunAndProfile(day);
+            //        }
+            //        else
+            //        {
+            //            Run(day);
+            //        }
+            //        Console.WriteLine();
+            //    }
+            //    Console.WriteLine("Press any key to continue . . .");
+            //    Console.ReadKey();
+            //}
+            //else
+            //{
+            //    bool keepGoing = true;
+            //    var initialized = new HashSet<IDay>();
+            //    int selection = 0;
+            //    while (keepGoing)
+            //    {
+            //        selection = Menu.RunMenu(s_allDays, selection);
 
-                    if (selection < 0)
-                    {
-                        keepGoing = false;
-                    }
-                    else
-                    {
-                        var day = s_allDays[selection];
+            //        if (selection < 0)
+            //        {
+            //            keepGoing = false;
+            //        }
+            //        else
+            //        {
+            //            var day = s_allDays[selection];
 
-                        Console.Clear();
-                        Console.WriteLine($"Running tests for {day.ToString()}");
-                        Console.WriteLine();
+            //            Console.Clear();
+            //            Console.WriteLine($"Running tests for {day.ToString()}");
+            //            Console.WriteLine();
 
-                        if (!initialized.Contains(day))
-                        {
-                            initialized.Add(day);
-                            day.Initialize();
-                        }
-                        RunAndProfile(day);
+            //            if (!initialized.Contains(day))
+            //            {
+            //                initialized.Add(day);
+            //                day.Initialize();
+            //            }
+            //            RunAndProfile(day);
 
-                        Console.WriteLine();
-                        Console.WriteLine("Press any key to continue . . .");
-                        Console.ReadKey();
-                    }
-                }
-            }
+            //            Console.WriteLine();
+            //            Console.WriteLine("Press any key to continue . . .");
+            //            Console.ReadKey();
+            //        }
+            //    }
+            //}
         }
 
-        private static void RunAndProfile(IDay day)
+        public static void RunAndProfile(IDay day)
         {
             day.Reset();
 
