@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B6DD13F0-B120-4C47-9CB2-1DAAB85D4AAD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Advent</RootNamespace>
+    <AssemblyName>Advent</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Array.cs" />
+    <Compile Include="MinHeap.cs" />
+    <Compile Include="Permuter.cs" />
+    <Compile Include="Year2018\Day1Strategy.cs" />
+    <Compile Include="Year2018\Day24.cs" />
+    <Compile Include="Day.cs" />
+    <Compile Include="DayInputFileStrategy.cs" />
+    <Compile Include="DayMapInputFileStrategy.cs" />
+    <Compile Include="FuncComparer.cs" />
+    <Compile Include="Hash.cs" />
+    <Compile Include="IDay.cs" />
+    <Compile Include="IDayStrategy.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vec2.cs" />
+    <Compile Include="Year2019\Day10Strategy.cs" />
+    <Compile Include="Year2019\Day09Strategy.cs" />
+    <Compile Include="Year2019\Day04Strategy.cs" />
+    <Compile Include="Year2019\Day05Strategy.cs" />
+    <Compile Include="Year2019\Day01Strategy.cs" />
+    <Compile Include="Year2019\Day02Strategy.cs" />
+    <Compile Include="Year2019\Day03Strategy.cs" />
+    <Compile Include="Year2019\Day06Strategy.cs" />
+    <Compile Include="Year2019\Day07Strategy.cs" />
+    <Compile Include="Year2019\Day08Strategy.cs" />
+    <Compile Include="Year2019\Day11Strategy.cs" />
+    <Compile Include="Year2019\Day12Strategy.cs" />
+    <Compile Include="Year2019\Day13Strategy.cs" />
+    <Compile Include="Year2019\Day14Strategy.cs" />
+    <Compile Include="Year2019\Day15Strategy.cs" />
+    <Compile Include="Year2019\Day16Strategy.cs" />
+    <Compile Include="Year2019\Day17Strategy.cs" />
+    <Compile Include="Year2019\Day18Strategy.cs" />
+    <Compile Include="Year2019\Day18Strategy2.cs" />
+    <Compile Include="Year2019\Day19Strategy.cs" />
+    <Compile Include="Year2019\Day20Strategy.cs" />
+    <Compile Include="Year2019\Day21Strategy.cs" />
+    <Compile Include="Year2019\Day22Strategy.cs" />
+    <Compile Include="Year2019\Day23Strategy.cs" />
+    <Compile Include="Year2019\Day24Strategy.cs" />
+    <Compile Include="Year2019\Day25Strategy.cs" />
+    <Compile Include="Year2019\DayIntCodeStrategy.cs" />
+    <Compile Include="Year2019\IntCode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
