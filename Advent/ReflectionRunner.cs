@@ -64,6 +64,7 @@ namespace Advent
 			Day d = new Day((IDayStrategy)Activator.CreateInstance(m_strategyType, m_inputFileName));
 			d.Initialize();
 			Program.RunAndProfile(d);
+			Console.ReadKey();
 		}
 	}
 

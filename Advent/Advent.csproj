@@ -87,6 +87,7 @@
     <Compile Include="Year2019\Day25Strategy.cs" />
     <Compile Include="Year2019\DayIntCodeStrategy.cs" />
     <Compile Include="Year2019\IntCode.cs" />
+    <Compile Include="Year2020\Day01Strategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -95,9 +96,6 @@
     <Content Include="inputs\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Year2020\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
