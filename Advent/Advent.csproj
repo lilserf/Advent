@@ -88,6 +88,7 @@
     <Compile Include="Year2019\DayIntCodeStrategy.cs" />
     <Compile Include="Year2019\IntCode.cs" />
     <Compile Include="Year2020\Day01Strategy.cs" />
+    <Compile Include="Year2020\Day02Strategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
