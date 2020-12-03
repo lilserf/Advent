@@ -8,6 +8,18 @@ namespace Advent
 {
 	public static class ArrayUtil
 	{
+		public static void PrintArray<T>(T[][] array, int maxWidth=80, int maxHeight=500)
+		{
+			for (int j = 0; j < maxHeight; j++)
+			{
+				for (int i = 0; i < maxWidth; i++)
+				{
+					Console.Write(array[i][j]);
+				}
+				Console.WriteLine();
+			}
+		}
+
 		public static void Build2DArray<T>(ref T[][] array, int width, int height, T value) where T : struct
 		{
 			array = new T[width][];
