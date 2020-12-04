@@ -19,6 +19,9 @@ namespace Advent
 		string InputFileName => m_inputFileName;
 		private string m_inputFileName;
 
+		IEnumerable<string> TestFiles => m_testFiles;
+		private List<string> m_testFiles;
+
 		public static Record CreateFromStrategyType(Type t)
 		{
 			var matches = Regex.Match(t.Namespace, @"Year(\d+)");
@@ -37,14 +40,16 @@ namespace Advent
 
 			string inputFilePath = null;
 			string filePath = $"inputs\\{year}";
-			//if (day < 10)
-			//{
-			//	string filename = Path.Combine(filePath, $"day0{day}.txt");
-			//	if (File.Exists(filename))
-			//	{
-			//		inputFilePath = filename;
-			//	}
-			//}
+			List<string> testFiles = new List<string>();
+			
+			for(int i = 0; i < 10; i++)
+			{
+				var check = Path.Combine(filePath, $"day{day}-test{i}.txt");
+				if(File.Exists(check))
+				{
+					testFiles.Add(check);
+				}
+			}
 
 			if (inputFilePath == null)
 			{
@@ -56,11 +61,22 @@ namespace Advent
 			r.m_day = day;
 			r.m_strategyType = t;
 			r.m_inputFileName = inputFilePath;
+			r.m_testFiles = testFiles;
 			return r;
 		}
 
 		public void Run()
 		{
+			foreach(var tf in m_testFiles)
+			{
+				Console.WriteLine($"################ TEST {tf} #################");
+				Day test = new Day((IDayStrategy)Activator.CreateInstance(m_strategyType, tf));
+				test.Initialize();
+				Program.RunAndProfile(test);
+				Console.ReadKey();
+				Console.WriteLine("#############################################");
+			}
+
 			Day d = new Day((IDayStrategy)Activator.CreateInstance(m_strategyType, m_inputFileName));
 			d.Initialize();
 			Program.RunAndProfile(d);

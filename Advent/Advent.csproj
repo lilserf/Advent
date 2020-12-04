@@ -90,6 +90,7 @@
     <Compile Include="Year2020\Day01Strategy.cs" />
     <Compile Include="Year2020\Day02Strategy.cs" />
     <Compile Include="Year2020\Day03Strategy.cs" />
+    <Compile Include="Year2020\Day04Strategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -98,6 +99,8 @@
     <Content Include="inputs\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="inputs\2020\day4-test0.txt" />
+    <Content Include="inputs\2020\day4-test1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
