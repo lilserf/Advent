@@ -92,6 +92,7 @@
     <Compile Include="Year2020\Day03Strategy.cs" />
     <Compile Include="Year2020\Day04Strategy.cs" />
     <Compile Include="Year2020\Day05Strategy.cs" />
+    <Compile Include="Year2020\Day06Strategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
