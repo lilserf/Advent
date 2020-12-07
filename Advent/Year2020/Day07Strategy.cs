@@ -110,13 +110,13 @@ namespace Advent2020.Year2020
 					int count = x.Value;
 					string name = x.Key;
 					Bag newBag = m_bags[name];
-					for (int i = 0; i < depth; i++)
-						Console.Write("  ");
-					Console.WriteLine($"Adding {count} {name} bags...");
+					//for (int i = 0; i < depth; i++)
+					//	Console.Write("  ");
+					//Console.WriteLine($"Adding {count} {name} bags...");
 					int inside = CountBagsInside(newBag, depth+1);
-					for (int i = 0; i < depth; i++)
-						Console.Write("  ");
-					Console.WriteLine($"{name} bags contain {inside} bags!");
+					//for (int i = 0; i < depth; i++)
+					//	Console.Write("  ");
+					//Console.WriteLine($"{name} bags contain {inside} bags!");
 					sum += count * inside;
 				}
 
