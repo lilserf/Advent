@@ -31,18 +31,21 @@ namespace Advent2020.Year2020
 
 			Queue<long> curr = new Queue<long>();
 
+			// Take the preamble first
 			for (int i = 0; i < 25; i++)
 			{
 				curr.Enqueue(data.Dequeue());
 			}
 			
-
+			// Loop until out of data
 			while(data.Count > 0)
 			{
 				long next = data.Dequeue();
 
+				// Get the list of all pairs of numbers in our current set
 				var pairs = Permuter.Pairs(curr);
 
+				// Find if one of these pairs matches
 				bool found = false;
 				foreach(var p in pairs)
 				{
@@ -59,6 +62,7 @@ namespace Advent2020.Year2020
 				}
 				else
 				{
+					// Ditch the oldest and add the next number
 					curr.Dequeue();
 					curr.Enqueue(next);
 				}
@@ -67,6 +71,7 @@ namespace Advent2020.Year2020
 			return "";
 		}
 
+		// Quick helper
 		public long Sum(List<long> data, int start, int end)
 		{
 			long sum = 0;
@@ -79,34 +84,40 @@ namespace Advent2020.Year2020
 
 		public override string Part2()
 		{
+			// Wheeee hardcoded
 			long magicNum = 25918798;
 
 			List<long> data = new List<long>(m_data);
 
+			// Start from the big end of the list to minimize having to search 100 tiny numbers trying to add to 25 million
 			int length = 2;
 			int i = data.Count;
 			while(i >= 0)
 			{
+				// Sum the range
 				long sum = Sum(data, i - length, i);
 				if(sum == magicNum)
 				{
+					// Get the range
 					long start = data.ElementAt(i - length);
 					long end = data.ElementAt(i - 1);
 					var range = data.Skip(i - length).Take(length);
-
+					// Find min and max (did this wrong at first)
 					long min = range.Min();
 					long max = range.Max();
-					Console.WriteLine($"Range from {i-length}({start}) to {i-1}({end}) sums to magic number");
-					Console.WriteLine($"Min is {min}, Max is {max}");
+					//Console.WriteLine($"Range from {i-length}({start}) to {i-1}({end}) sums to magic number");
+					//Console.WriteLine($"Min is {min}, Max is {max}");
 					return (min + max).ToString();
 				}
 				else if(sum > magicNum)
 				{
+					// If we went over, move the range down and reset the length to 2
 					i--;
 					length = 2;
 				}
 				else if(sum < magicNum)
 				{
+					// If we're still under, extend the range
 					length++;
 				}
 			}
