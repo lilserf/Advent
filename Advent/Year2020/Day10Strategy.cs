@@ -108,8 +108,6 @@ namespace Advent2020.Year2020
 				Console.Write($"{curr}, ");
 			}
 
-			//combos *= NumPermutations(curr, maxJoltage, m_data);
-
 			Console.WriteLine($"({maxJoltage})");
 
 			return combos.ToString();
