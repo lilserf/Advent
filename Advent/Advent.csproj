@@ -96,6 +96,7 @@
     <Compile Include="Year2020\Day07Strategy.cs" />
     <Compile Include="Year2020\Day08Strategy.cs" />
     <Compile Include="Year2020\Day09Strategy.cs" />
+    <Compile Include="Year2020\Day10Strategy.cs" />
     <Compile Include="Year2020\Handheld.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +106,9 @@
     <Content Include="inputs\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="inputs\2020\day10-test0.txt" />
+    <Content Include="inputs\2020\day10-test1.txt" />
+    <Content Include="inputs\2020\day10.txt" />
     <Content Include="inputs\2020\day4-test0.txt" />
     <Content Include="inputs\2020\day4-test1.txt" />
     <Content Include="inputs\2020\day5.txt" />
