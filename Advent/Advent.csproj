@@ -48,9 +48,13 @@
     <Compile Include="Day.cs" />
     <Compile Include="DayInputFileStrategy.cs" />
     <Compile Include="DayMapInputFileStrategy.cs" />
+    <Compile Include="DayRunner.cs" />
+    <Compile Include="DayRunnerLineLoaderStrategy.cs" />
     <Compile Include="FuncComparer.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="IDay.cs" />
+    <Compile Include="IDayLineLoader.cs" />
+    <Compile Include="IDayPartRunner.cs" />
     <Compile Include="IDayStrategy.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MinHeap.cs" />
@@ -98,6 +102,7 @@
     <Compile Include="Year2020\Day09Strategy.cs" />
     <Compile Include="Year2020\Day10Strategy.cs" />
     <Compile Include="Year2020\Day11Strategy.cs" />
+    <Compile Include="Year2020\Day12Strategy.cs" />
     <Compile Include="Year2020\Handheld.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +117,7 @@
     <Content Include="inputs\2020\day10.txt" />
     <Content Include="inputs\2020\day11-test0.txt" />
     <Content Include="inputs\2020\day11.txt" />
+    <Content Include="inputs\2020\day12.txt" />
     <Content Include="inputs\2020\day4-test0.txt" />
     <Content Include="inputs\2020\day4-test1.txt" />
     <Content Include="inputs\2020\day5.txt" />

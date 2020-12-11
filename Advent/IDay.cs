@@ -1,6 +1,6 @@
 ﻿namespace Advent
 {
-    interface IDay
+    public interface IDay
     {
         void Initialize();
         void Reset();
