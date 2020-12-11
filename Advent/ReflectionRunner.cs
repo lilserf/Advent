@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Advent
 {
+	// Description of a Day and all its associated nonsnes
 	class Record
 	{
 		public int Year => m_year;
@@ -22,6 +23,7 @@ namespace Advent
 		IEnumerable<string> TestFiles => m_testFiles;
 		private List<string> m_testFiles;
 
+		// Hacky - use the alternate DayRunner method for this record
 		public bool UseDayRunner => m_useDayRunner;
 		private bool m_useDayRunner;
 
@@ -133,6 +135,7 @@ namespace Advent
 					m_records.Add(r);
 			}
 
+			// Have to use DayLineLoaderBasic since there's no interface type that extends both IDayPartRunner and IDayLineLoader
 			target = typeof(DayLineLoaderBasic);
 			types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => target.IsAssignableFrom(p));
 
