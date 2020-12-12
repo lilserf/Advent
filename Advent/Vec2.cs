@@ -27,6 +27,7 @@ namespace Advent
             X = x;
             Y = y;
         }
+
         public static Vec2 operator *(Vec2 a, int m)
         {
             return new Vec2(a.X * m, a.Y * m);
@@ -84,5 +85,13 @@ namespace Advent
             return $"[{X},{Y}]";
         }
         public string DebuggerDisplay { get { return ToString(); } }
+
+        public void Rotate90CounterClockwise()
+        {
+            X = X * -1;
+            var temp = X;
+            X = Y;
+            Y = temp;
+        }
     }
 }
