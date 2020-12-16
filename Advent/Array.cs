@@ -8,13 +8,20 @@ namespace Advent
 {
 	public static class ArrayUtil
 	{
-		public static void PrintArray<T>(T[][] array, int maxWidth=80, int maxHeight=500)
+		public static void PrintArray<T>(T[][] array, int maxWidth=80, int maxHeight=500, Func<T, char> converter = null)
 		{
 			for (int j = 0; j < maxHeight; j++)
 			{
 				for (int i = 0; i < maxWidth; i++)
 				{
-					Console.Write(array[i][j]);
+					if (converter != null)
+					{
+						Console.Write(converter(array[i][j]));
+					}
+					else
+					{
+						Console.Write(array[i][j]);
+					}
 				}
 				Console.WriteLine();
 			}
