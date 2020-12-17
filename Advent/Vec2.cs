@@ -18,7 +18,7 @@ namespace Advent
 
         public static readonly Vec2[] Adjacent = new[] { Up, UpRight, Right, DownRight, Down, DownLeft, Left, UpLeft };
         public static readonly Vec2[] CardinalAdjacent = new[] { Up, Right, Down, Left };
-       
+
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -40,18 +40,18 @@ namespace Advent
         {
             return new Vec2(a.X + b.X, a.Y + b.Y);
         }
-		public static Vec2 operator -(Vec2 a, Vec2 b)
-		{
-			return new Vec2(a.X - b.X, a.Y - b.Y);
-		}
-		public static Vec2 operator /(Vec2 a, Vec2 b)
-		{
-			return new Vec2(a.X / b.X, a.Y / b.Y);
-		}
-		public static Vec2 operator /(Vec2 a, int b)
-		{
-			return new Vec2(a.X / b, a.Y / b);
-		}
+        public static Vec2 operator -(Vec2 a, Vec2 b)
+        {
+            return new Vec2(a.X - b.X, a.Y - b.Y);
+        }
+        public static Vec2 operator /(Vec2 a, Vec2 b)
+        {
+            return new Vec2(a.X / b.X, a.Y / b.Y);
+        }
+        public static Vec2 operator /(Vec2 a, int b)
+        {
+            return new Vec2(a.X / b, a.Y / b);
+        }
         public static bool operator ==(Vec2 a, Vec2 b)
         {
             return a.X == b.X && a.Y == b.Y;
