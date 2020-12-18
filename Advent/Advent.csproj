@@ -110,6 +110,7 @@
     <Compile Include="Year2020\Day15Strategy.cs" />
     <Compile Include="Year2020\Day16Strategy.cs" />
     <Compile Include="Year2020\Day17Strategy.cs" />
+    <Compile Include="Year2020\Day18Strategy.cs" />
     <Compile Include="Year2020\Handheld.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +131,7 @@
     <Content Include="inputs\2020\day15.txt" />
     <Content Include="inputs\2020\day16.txt" />
     <Content Include="inputs\2020\day17.txt" />
+    <Content Include="inputs\2020\day18.txt" />
     <Content Include="inputs\2020\day4-test0.txt" />
     <Content Include="inputs\2020\day4-test1.txt" />
     <Content Include="inputs\2020\day5.txt" />
