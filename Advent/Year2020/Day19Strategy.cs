@@ -1,6 +1,7 @@
 ﻿using Advent;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,12 +12,15 @@ namespace Advent2020.Year2020
 	class Rule
 	{
 		public static bool Print = false;
+		public static bool Pause = false;
 		public int Id { get; set; }
 		public char TerminalChar { get; set; }
 		
 		public List<Rule> SubRules { get; set; }
 
 		public List<int> SubRuleIds { get; set; }
+
+		private string m_stringRep;
 
 		public bool MatchAll { get; set; }
 		public Rule(int id, char c)
@@ -39,22 +43,34 @@ namespace Advent2020.Year2020
 
 		public override string ToString()
 		{
-			if(SubRules.Count == 0)
+			return m_stringRep;
+		}
+
+		public void ResolveStringRep()
+		{
+			m_stringRep = "";
+
+			if (SubRuleIds.Count == 0 && SubRules.Count == 0)
 			{
-				return $"{TerminalChar}";
+				m_stringRep = $"{TerminalChar}";
 			}
-			else
+
+			foreach (var r in SubRules)
 			{
-				if(MatchAll)
+				if (MatchAll)
 				{
-					
-					return SubRules.Aggregate("(", (sum, x) => sum += $"{x}", s => s + ")");
+					m_stringRep += r.Id + " ";
 				}
 				else
 				{
-					
-					return SubRules.Aggregate("(", (sum, x) => sum += $"{x} or ", s => s + ")");
+					m_stringRep += r.m_stringRep + " | ";
 				}
+			}
+
+			m_stringRep = m_stringRep.Trim();
+			if (m_stringRep.EndsWith(" |"))
+			{
+				m_stringRep = m_stringRep.Substring(0, m_stringRep.Length - 2);
 			}
 		}
 
@@ -70,85 +86,112 @@ namespace Advent2020.Year2020
 			{
 				r.Resolve(rules);
 			}
+
+			ResolveStringRep();
 		}
 
-		public (bool, int) Matches(string s, int level = 0)
+		public (bool, List<int>) Matches(string s, int level = 0)
 		{
-			if (Print)
+			if (Print && Id != -1)
 			{
 				for (int i = 0; i < level; i++)
 					Console.Write(" ");
 
 				string list = "";
 
-				if (SubRules.Count > 0)
-				{
-					list = $"{SubRules[0].Id}";
-					for (int i = 1; i < SubRules.Count; i++)
-					{
-						list += " AND " + SubRules[i].Id;
-					}
-				}
-
-				Console.WriteLine($"Does rule {Id} ({list}) match {s}?");
+				Console.WriteLine($"Does rule {Id} ({m_stringRep}) match {s}?");
+				
+				if(Pause) Console.ReadKey();
 			}
 			if(SubRules.Count == 0)
 			{
 				if (s.Count() > 0 && s[0] == TerminalChar)
 				{
-					if (Print)
+					if (Print && Id != -1)
 					{
 						for (int i = 0; i < level; i++)
 							Console.Write(" ");
 						Console.WriteLine($"Rule {Id} matched {TerminalChar}");
 					}
-					return (true,1);
+					return (true, new List<int>(new int[] { 1 }));
 				}
 			}
 			else
 			{
 				if(MatchAll)
 				{
-					int adv = 0;
-					string temp = s;
+					List<string> working = new List<string>();
+					working.Add(s);
+
 					foreach (var rule in SubRules)
 					{
-						(bool match, int advance) = rule.Matches(temp, level+1);
-						if (!match)
-							return (false, 0);
-						adv += advance;
-						temp = temp.Substring(advance);
-					}
-					if (Print)
-					{
-						for (int i = 0; i < level; i++)
-							Console.Write(" ");
-						Console.WriteLine($"Rule {Id} matched {s.Substring(0,adv)}");
+						var tempWorking = new List<string>(working);
+						working.Clear();
+
+						foreach (var temp in tempWorking)
+						{
+							(bool match, List<int> advances) = rule.Matches(temp, level + 1);
+							if (match)
+							{
+								foreach (var adv in advances)
+								{
+									if (Print && Id != -1)
+									{
+										for (int i = 0; i < level; i++)
+											Console.Write(" ");
+										Console.WriteLine($"Rule {Id} matched {s.Substring(0, adv)}");
+									}
+									working.Add(temp.Substring(adv));
+								}
+							}
+						}
 					}
 
-					return (true, adv);
+					List<int> endAdvances = new List<int>();
+					foreach(string t in working)
+					{
+						endAdvances.Add(s.Length - t.Length);
+					}
+
+					if (endAdvances.Count > 0)
+						return (true, endAdvances);
+					else
+						return (false, new List<int>());
 				}
 				else
 				{
-					foreach(var rule in SubRules)
+					List<int> matchingAdvances = new List<int>();
+					foreach (var rule in SubRules)
 					{
-						(bool match, int advance) = rule.Matches(s, level+1);
+						(bool match, List<int> advances) = rule.Matches(s, level + 1);
+
 						if (match)
 						{
-							if (Print)
+							foreach (var advance in advances)
 							{
-								for (int i = 0; i < level; i++)
-									Console.Write(" ");
-								Console.WriteLine($"Rule {Id} matched {s.Substring(0,advance)}");
+								if (Print)
+								{
+									for (int i = 0; i < level; i++)
+										Console.Write(" ");
+									Console.WriteLine($"Rule {Id} matched {s.Substring(0, advance)}");
+								}
+								matchingAdvances.Add(advance);
 							}
-
-							return (match, advance);
 						}
 					}
+					if(matchingAdvances.Count > 0)
+					{
+						return (true, matchingAdvances);
+					}
+					else
+					{
+						return (false, new List<int>());
+					}
+					
 				}
 			}
 
-			return (false, 0);
+			return (false, new List<int>());
 		}
 	}
 
@@ -219,9 +262,9 @@ namespace Advent2020.Year2020
 			int sum = 0;
 			foreach(var line in m_cases)
 			{
-				(bool match, int advance) = rule0.Matches(line);
+				(bool match, List<int> advance) = rule0.Matches(line);
 
-				if(match && advance == line.Length)
+				if(match && advance.Max() == line.Length)
 				{
 					sum++;
 				}
@@ -234,29 +277,60 @@ namespace Advent2020.Year2020
 		{
 			if (m_rules.ContainsKey(8) && m_rules.ContainsKey(11))
 			{
+				Rule newSub;
 				var rule8 = m_rules[8];
-				var newSub = new Rule(-1);
+				rule8.SubRules.Clear();
+				rule8.MatchAll = false;
+
+				newSub = new Rule(-1);
 				newSub.MatchAll = true;
 				newSub.SubRules.Add(m_rules[42]);
 				newSub.SubRules.Add(m_rules[8]);
+				newSub.ResolveStringRep();
 				rule8.SubRules.Add(newSub);
 
+				newSub = new Rule(-1);
+				newSub.MatchAll = true;
+				newSub.SubRules.Add(m_rules[42]);
+				newSub.ResolveStringRep();
+				rule8.SubRules.Add(newSub);
+				rule8.ResolveStringRep();
+
 				var rule11 = m_rules[11];
+				rule11.SubRules.Clear();
+				rule11.MatchAll = false;
+
 				newSub = new Rule(-1);
 				newSub.MatchAll = true;
 				newSub.SubRules.Add(m_rules[42]);
 				newSub.SubRules.Add(m_rules[11]);
 				newSub.SubRules.Add(m_rules[31]);
+				newSub.ResolveStringRep();
 				rule11.SubRules.Add(newSub);
+
+				newSub = new Rule(-1);
+				newSub.MatchAll = true;
+				newSub.SubRules.Add(m_rules[42]);
+				newSub.SubRules.Add(m_rules[31]);
+				newSub.ResolveStringRep();
+				rule11.SubRules.Add(newSub);
+
+				rule11.ResolveStringRep();
+
 
 				var rule0 = m_rules[0];
 				int sum = 0;
-				Rule.Print = false;
+
+				//Rule.Print = true;
+				//Rule.Pause = false;
+				//Console.WriteLine(rule0.Matches("aaaaabbaabaaaaababaa"));
+				//Rule.Print = false;
+
 				foreach (var line in m_cases)
 				{
-					(bool match, int advance) = rule0.Matches(line);
+					(bool match, List<int> advance) = rule0.Matches(line);
 
-					if (match && advance == line.Length)
+					if (match && advance.Max() == line.Length)
 					{
 						Console.WriteLine($"Rule 0 matched {line}");
 						sum++;
