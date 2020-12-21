@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Advent2020.Year2020
 {
+
 	enum Edge
 	{
 		Top = 0,
@@ -17,6 +18,192 @@ namespace Advent2020.Year2020
 		Bottom = 180,
 		Left = 270
 	}
+
+	public class Constants
+	{
+		public static int WIDTH = 10;
+		public static int WIDTH_MINUS_1 = 9;
+	}
+
+	abstract class Transform
+	{
+
+		public static Transform Rotate(int deg)
+		{
+			return new RotateTransform(deg);
+		}
+
+		public static Transform FlipX()
+		{
+			return new FlipXTransform();
+		}
+
+		public static Transform FlipY()
+		{
+			return new FlipYTransform();
+		}
+
+		public abstract (Edge, string) Apply(Edge e, string s);
+
+		public abstract (Edge, string) Unapply(Edge e, string s);
+
+		public abstract (int, int) ApplyPoint(int x, int y);
+
+		public abstract (int, int) UnapplyPoint(int x, int y);
+	}
+
+
+	class RotateTransform : Transform
+	{
+		int m_degrees;
+		public RotateTransform(int degrees)
+		{
+			m_degrees = degrees;
+		}
+
+		public override (Edge, string) Apply(Edge e, string s)
+		{
+			int startDeg = (int)e;
+			int endDeg = (360 + startDeg + m_degrees) % 360;
+			return ((Edge)endDeg, s);
+		}
+
+		public override (int, int) ApplyPoint(int x, int y)
+		{
+			int outX = 0;
+			int outY = 0;
+
+			if (m_degrees == 0)
+			{
+				outX = x;
+				outY = y;
+			}
+			if (m_degrees == 90)
+			{
+				outX = Constants.WIDTH_MINUS_1 - y;
+				outY = x;
+			}
+			if (m_degrees == 180)
+			{
+				outX = Constants.WIDTH_MINUS_1 - x;
+				outY = Constants.WIDTH_MINUS_1 - y;
+			}
+			if (m_degrees == 270)
+			{
+				outX = y;
+				outY = Constants.WIDTH_MINUS_1 - x;
+			}
+
+			return (outX, outY);
+		}
+
+		public override (Edge, string) Unapply(Edge e, string s)
+		{
+			int endDeg = (int)e;
+			int startDeg = (360 + endDeg - m_degrees) % 360;
+			return ((Edge)startDeg, s);
+		}
+
+		public override (int, int) UnapplyPoint(int x, int y)
+		{
+			int outX = 0;
+			int outY = 0;
+
+			if (m_degrees == 0)
+			{
+				outX = x;
+				outY = y;
+			}
+			if (m_degrees == 90)
+			{
+				outX = y;
+				outY = Constants.WIDTH_MINUS_1 - x;
+			}
+			if (m_degrees == 180)
+			{
+				outX = Constants.WIDTH_MINUS_1 - x;
+				outY = Constants.WIDTH_MINUS_1 - y;
+			}
+			if (m_degrees == 270)
+			{
+				outX = Constants.WIDTH_MINUS_1 - y;
+				outY = x;
+			}
+
+			return (outX, outY);
+		}
+	}
+
+	class FlipXTransform : Transform
+	{
+		public override (Edge, string) Apply(Edge e, string s)
+		{
+			string reversed = new string(s.Reverse().ToArray());
+			switch (e)
+			{
+				case Edge.Top:
+				case Edge.Bottom:
+					return (e, reversed);
+				case Edge.Left:
+					return (Edge.Right, reversed);
+				case Edge.Right:
+					return (Edge.Left, reversed);
+				default:
+					throw new Exception("What?");
+			}
+		}
+
+		public override (int, int) ApplyPoint(int x, int y)
+		{
+			return (Constants.WIDTH_MINUS_1 - x, y);
+		}
+
+		public override (Edge, string) Unapply(Edge e, string s)
+		{
+			return Apply(e, s);
+		}
+
+		public override (int, int) UnapplyPoint(int x, int y)
+		{
+			return ApplyPoint(x, y);
+		}
+	}
+
+	class FlipYTransform : Transform
+	{
+		public override (Edge, string) Apply(Edge e, string s)
+		{
+			string reversed = new string(s.Reverse().ToArray());
+			switch (e)
+			{
+				case Edge.Left:
+				case Edge.Right:
+					return (e, reversed);
+				case Edge.Top:
+					return (Edge.Bottom, reversed);
+				case Edge.Bottom:
+					return (Edge.Top, reversed);
+				default:
+					throw new Exception("What?");
+			}
+		}
+
+		public override (int, int) ApplyPoint(int x, int y)
+		{
+			return (x, Constants.WIDTH_MINUS_1 - y);
+		}
+
+		public override (Edge, string) Unapply(Edge e, string s)
+		{
+			return Apply(e, s);
+		}
+
+		public override (int, int) UnapplyPoint(int x, int y)
+		{
+			return ApplyPoint(x, y);
+		}
+	}
+
 	class Tile
 	{
 		public int Id { get; set; }
@@ -25,11 +212,14 @@ namespace Advent2020.Year2020
 		char[][] m_data;
 		int m_currLine = 0;
 
+		List<Transform> m_transforms;
+
 		public Tile(int id)
 		{
 			Id = id;
 			ArrayUtil.Build2DArray(ref m_data, 10, 10, ' ');
 			EdgeMatches = new Dictionary<string, int>();
+			m_transforms = new List<Transform>();
 		}
 
 		public void AddLine(string line)
@@ -53,10 +243,10 @@ namespace Advent2020.Year2020
 
 			for (int i = 0; i < 10; i++)
 			{
-				top += m_data[0][9 - i];
-				bottom += m_data[9][i];
+				top += m_data[0][Constants.WIDTH_MINUS_1 - i];
+				bottom += m_data[Constants.WIDTH_MINUS_1][i];
 				left += m_data[i][0];
-				right += m_data[9 - i][9];
+				right += m_data[Constants.WIDTH_MINUS_1 - i][Constants.WIDTH_MINUS_1];
 			}
 
 			m_edges[Edge.Top] = top;
@@ -67,87 +257,135 @@ namespace Advent2020.Year2020
 			return new string[] { top, right, bottom, left };
 		}
 
-		private int Rotation = 0;
-		private bool FlipX = false;
-		private bool FlipY = false;
-
-		public Edge WhereIsEdge(string e)
+		public (string, string) GetCurrentSide(Edge e)
 		{
-			var original = m_edges.Where(k => k.Value == e).Select(k => k.Key).First();
+			string unused = "";
+			(e, unused) = UnapplyTransforms(e, unused);
 
-			int deg = (int)original;
-			deg += Rotation;
+			string orig = m_edges[e];
+			string final = orig;
+			(e, final) = ApplyTransforms(e, orig);
 
-			return (Edge)(deg % 360);
+			return (orig, final);
 		}
 
-		public void Flip(Edge e)
+		public (Edge, string) FindCurrentStateOfEdge(string s)
 		{
-			if(e == Edge.Top || e == Edge.Bottom)
+			Edge edge = m_edges.Where(k => k.Value == s).Select(k => k.Key).First();
+			return ApplyTransforms(edge, s);
+		}
+
+		public (Edge, string) ApplyTransforms(Edge edge, string s)
+		{
+			foreach (var t in m_transforms)
 			{
-				FlipY = true;
+				(edge, s) = t.Apply(edge, s);
 			}
+			return (edge, s);
+		}
+
+		public (Edge, string) UnapplyTransforms(Edge edge, string s)
+		{
+			for(int i = m_transforms.Count-1; i >= 0; i--)
+			{
+				var t = m_transforms.ElementAt(i);
+				(edge, s) = t.Unapply(edge, s);
+			}
+			return (edge, s);
+		}
+
+		public void Rotate(int deg)
+		{
+			m_transforms.Add(Transform.Rotate(deg));
+		}
+
+		public void FlipMove(Edge e)
+		{
+			if (e == Edge.Top || e == Edge.Bottom)
+				m_transforms.Add(Transform.FlipY());
 			else
-			{
-				FlipX = true;
-			}
+				m_transforms.Add(Transform.FlipX());
+		}
+
+		public void FlipNoMove(Edge e)
+		{
+			if (e == Edge.Top || e == Edge.Bottom)
+				m_transforms.Add(Transform.FlipX());
+			else
+				m_transforms.Add(Transform.FlipY());
+		}
+
+
+		public void RotateFromTo(Edge start, Edge end)
+		{
+			int rotDeg = (360 + end - start) % 360;
+			Rotate(rotDeg);
 		}
 
 		public void Position(string e1, Edge dir1, string e2, Edge dir2)
 		{
-			Edge curr1 = WhereIsEdge(e1);
-			Rotation = (360 + dir1 - curr1) % 360;
+			(Edge curr1, string s) = FindCurrentStateOfEdge(e1);
+			RotateFromTo(curr1, dir1);
 
-			Edge now2 = WhereIsEdge(e2);
-			if(now2 != dir2)
+			(Edge curr2, string s2) = FindCurrentStateOfEdge(e2);
+			if (curr2 != dir2)
 			{
-				Flip(now2);
+				// Flip this edge across to the other side of the tile
+				FlipMove(curr2);
 			}
+		}
+
+		public void PositionMatching(string edge, Edge dirToFace, string matching)
+		{
+			(Edge curr, string currVal) = FindCurrentStateOfEdge(edge);
+			RotateFromTo(curr, dirToFace);
+
+			(curr, currVal) = FindCurrentStateOfEdge(edge);
+			if (currVal != new string(matching.Reverse().ToArray()))
+			{
+				// Flip this edge in place so it's reversed
+				FlipNoMove(dirToFace);
+			}
+		}
+
+		public (int, int) UnapplyTransforms(int x, int y)
+		{
+			for (int i = m_transforms.Count - 1; i >= 0; i--)
+			{
+				var t = m_transforms.ElementAt(i);
+				(x, y) = t.UnapplyPoint(x, y);
+			}
+			return (x, y);
 		}
 
 		public char GetOuputChar(int outX, int outY)
 		{
-			if (FlipX)
-				outX = 9 - outX;
-			if (FlipY)
-				outY = 9 - outY;
-
-			int x = 0;
-			int y = 0;
-
-			if(Rotation == 0)
-			{
-				x = outX;
-				y = outY;
-			}
-			if (Rotation == 90)
-			{
-				x = outY;
-				y = 9 - outX;
-			}
-			if (Rotation == 180)
-			{
-				x = 9 - outX;
-				y = 9 - outY;
-			}
-			if(Rotation == 270)
-			{
-				x = 9 - outY;
-				y = outX;
-			}
-
+			(int x, int y) = UnapplyTransforms(outX, outY);
 			return m_data[y][x];
 		}
 
 		public void CopyInto(ref char[][] map, int x, int y)
 		{
-			for(int i = 1; i < 9; i++)
+			for(int i = 1; i < Constants.WIDTH_MINUS_1; i++)
 			{
-				for(int j = 1; j < 9; j++)
+				for(int j = 1; j < Constants.WIDTH_MINUS_1; j++)
 				{
 					char c = GetOuputChar(i, j);
-					map[y][x] = c;
+					map[x+i-1][y+j-1] = c;
 				}
+			}
+		}
+
+		public void Print()
+		{
+			for (int j = 0; j < Constants.WIDTH; j++)
+			{
+				for (int i = 0; i < Constants.WIDTH; i++)
+				{
+					char c = GetOuputChar(i, j);
+					Console.Write(c);
+				}
+				Console.WriteLine();
 			}
 		}
 
@@ -230,9 +468,92 @@ namespace Advent2020.Year2020
 
 		char[][] m_map;
 
+
+		string r1 = "                  # ";
+		string r2 = "#    ##    ##    ###";
+		string r3 = " #  #  #  #  #  #   ";
+
+		List<Vec2> seaMonsterParts = new List<Vec2>(new Vec2[]
+		{
+			new Vec2(18,0),
+			new Vec2(0,1),
+			new Vec2(5,1),
+			new Vec2(6,1),
+			new Vec2(11,1),
+			new Vec2(12,1),
+			new Vec2(17,1),
+			new Vec2(18,1),
+			new Vec2(19,1),
+			new Vec2(1,2),
+			new Vec2(4,2),
+			new Vec2(7,2),
+			new Vec2(10,2),
+			new Vec2(13,2),
+			new Vec2(16,2)
+		});
+
+		int SEA_MONSTER_HEIGHT = 3;
+		int SEA_MONSTER_WIDTH = 20;
+		public int NumSeaMonsters(ref char[][] map, int width, int height)
+		{
+			int sum = 0;
+			for(int row = 0; row < height-SEA_MONSTER_HEIGHT; row++)
+			{
+				for(int col = 0; col < width - SEA_MONSTER_WIDTH; col++)
+				{
+					if(IsSeaMonster(map, row, col))
+					{
+						MarkSeaMonster(ref map, row, col);
+						sum++;
+					}
+				}
+			}
+
+			return sum;
+		}
+
+		public void MarkSeaMonster(ref char[][] map, int y, int x)
+		{
+			foreach(var p in seaMonsterParts)
+			{
+				map[x + p.X][y + p.Y] = 'O';
+			}
+		}
+
+		public bool IsSeaMonster(char[][]map, int y, int x)
+		{
+			return seaMonsterParts.All(offset =>
+			{
+				return map[x + offset.X][y + offset.Y] == '#';
+			});
+		}
+
 		public override string Part2()
 		{
-			const int SIDE = 12;
+			//var t = Transform.Rotate(90);
+			//var f = Transform.FlipX();
+
+			//Edge e = Edge.Top;
+			//string s = "0123456789";
+			//Console.WriteLine($"Started at {e}, {s}");
+
+			//(e, s) = t.Apply(e, s);
+			//Console.WriteLine($"Rotated to {e}, {s}");
+
+			//(e, s) = f.Apply(e, s);
+			//Console.WriteLine($"Flipped to {e}, {s}");
+
+			//int x1 = 1;
+			//int y = 4;
+			//Console.WriteLine($"Started at ({x1}, {y})");
+
+			//(x1, y) = t.ApplyPoint(x1, y);
+			//Console.WriteLine($"Rotated to ({x1}, {y})");
+
+			//(x1, y) = f.ApplyPoint(x1, y);
+			//Console.WriteLine($"Flipped to ({x1}, {y})");
+
+			int SIDE = (int)Math.Sqrt(m_tiles.Count);
 			const int TILE_WIDTH = 8;
 			ArrayUtil.Build2DArray(ref m_map, SIDE * TILE_WIDTH, SIDE * TILE_WIDTH, ' ');
 
@@ -243,15 +564,63 @@ namespace Advent2020.Year2020
 			var edge2 = edges.ElementAt(1);
 			start.Position(edge1, Edge.Bottom, edge2, Edge.Right);
 
-			string currEdge = edge2;
-			Edge currSide = Edge.Right;
-			int numPlaced = 1;
-			while(numPlaced < 144)
-			{
+			Console.WriteLine($"Positioning Tile {start.Id} with {edge1} down and {edge2} right:");
+			start.Print();
 
+			Dictionary<Vec2, Tile> positions = new Dictionary<Vec2, Tile>();
+			positions[new Vec2(0, 0)] = start;
+
+			// Finish row 0
+			for(int col = 1; col < SIDE; col++)
+			{
+				Tile left = positions[new Vec2(0, col - 1)];
+				(string rightEdgeStart, string rightEdgeNow) = left.GetCurrentSide(Edge.Right);
+
+				Tile me = m_tiles[left.EdgeMatches[rightEdgeStart]];
+				string edge = me.EdgeMatches.Where(k => k.Value == left.Id).Select(k => k.Key).First();
+				me.PositionMatching(edge, Edge.Left, rightEdgeNow);
+
+				positions[new Vec2(0, col)] = me;
+				Console.WriteLine($"Positioning Tile {me.Id} with {edge} left:");
+				me.Print();
 			}
 
-			return "";
+			for (int row = 1; row < SIDE; row++)
+			{
+				for(int col = 0; col < SIDE; col++)
+				{
+					Tile up = positions[new Vec2(row - 1, col)];
+					(string botEdgeStart, string botEdgeNow) = up.GetCurrentSide(Edge.Bottom);
+
+					Tile me = m_tiles[up.EdgeMatches[botEdgeStart]];
+					string edge = me.EdgeMatches.Where(k => k.Value == up.Id).Select(k => k.Key).First();
+					me.PositionMatching(edge, Edge.Top, botEdgeNow);
+
+					positions[new Vec2(row, col)] = me;
+					Console.WriteLine($"Positioning Tile {me.Id} with {edge} up:");
+					me.Print();
+				}
+			}
+
+			for(int row = 0; row < SIDE; row++)
+			{
+				for(int col = 0; col < SIDE; col++)
+				{
+					Tile t = positions[new Vec2(row, col)];
+
+					t.CopyInto(ref m_map, col * TILE_WIDTH, row * TILE_WIDTH);
+				}
+			}
+			Console.WriteLine("Built map:");
+			ArrayUtil.PrintArray(m_map, SIDE * TILE_WIDTH, SIDE * TILE_WIDTH);
+
+			int monsters = NumSeaMonsters(ref m_map, SIDE * TILE_WIDTH, SIDE * TILE_WIDTH);
+
+			Console.WriteLine($"Found {monsters}!");
+			ArrayUtil.PrintArray(m_map, SIDE * TILE_WIDTH, SIDE * TILE_WIDTH);
+
+			return m_map.Sum(row => row.Sum(c => c == '#' ? 1 : 0)).ToString();
+
 		}
 	}
 }
