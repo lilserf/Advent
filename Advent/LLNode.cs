@@ -128,6 +128,18 @@ namespace Advent2020
 			return -1;
 		}
 
+		public static LLNode InsertAfter(LLNode after, long id)
+		{
+			LLNode next = after.Next;
+
+			after.Next = new LLNode(id);
+			next.Prev = after.Next;
+
+			after.Next.Next = next;
+			after.Next.Prev = after;
+
+			return after.Next;
+		}
 	}
 
 	class LLNode
