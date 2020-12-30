@@ -147,9 +147,15 @@ namespace Advent
 			}
 		}
 
-		public void RunLatest()
+		public void RunLatest(int year)
 		{
-			var latest = m_records.OrderBy(x => x.Day).OrderBy(x => x.Year).Last();
+			if(year == -1)
+			{
+				year = m_records.Max(x => x.Year);
+			}
+
+			var latest = m_records.Where(x => x.Year == year).OrderBy(x => x.Day).Last();
+			Console.WriteLine($"################# YEAR {year}, DAY {latest.Day} ####################");
 			latest.Run();
 		}
 	}

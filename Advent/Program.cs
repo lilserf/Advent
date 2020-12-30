@@ -46,8 +46,14 @@ namespace Advent
 
         static void Main(string[] args)
         {
+            int year = -1;
+            if(args.Length > 0)
+            {
+                year = int.Parse(args[0]);
+            }
+
             ReflectionRunner rr = new ReflectionRunner();
-            rr.RunLatest();
+            rr.RunLatest(year);
 
             //IEnumerable<IDay> daysToRun = null;
             
