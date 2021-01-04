@@ -8,6 +8,17 @@ namespace Advent
 {
 	public static class ArrayUtil
 	{
+		public static void Copy<T>(ref T[][] dest, T[][] src)
+		{
+			for (int i = 0; i < src.Length; i++)
+			{
+				for (int j = 0; j < src[0].Length; j++)
+				{
+					dest[i][j] = src[i][j];
+				}
+			}
+		}
+
 		public static void PrintArray<T>(T[][] array, int maxWidth=80, int maxHeight=500, Func<T, char> converter = null)
 		{
 			for (int j = 0; j < maxHeight; j++)
