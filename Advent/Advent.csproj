@@ -74,6 +74,11 @@
     <Compile Include="Year2017\Day19Strategy.cs" />
     <Compile Include="Year2017\Day20Strategy.cs" />
     <Compile Include="Year2017\Day21Strategy.cs" />
+    <Compile Include="Year2017\Day22Strategy.cs" />
+    <Compile Include="Year2017\Day23Strategy.cs" />
+    <Compile Include="Year2017\Day24Strategy.cs" />
+    <Compile Include="Year2017\Day25Strategy.cs" />
+    <Compile Include="Year2018\Day22Strategy.cs" />
     <Compile Include="Year2019\Day01Strategy.cs" />
     <Compile Include="Year2019\Day02Strategy.cs" />
     <Compile Include="Year2019\Day03Strategy.cs" />
@@ -144,6 +149,12 @@
     <Content Include="inputs\2017\day19.txt" />
     <Content Include="inputs\2017\day20.txt" />
     <Content Include="inputs\2017\day21.txt" />
+    <Content Include="inputs\2017\day22.txt" />
+    <Content Include="inputs\2017\day23-orig.txt" />
+    <Content Include="inputs\2017\day23.txt" />
+    <Content Include="inputs\2017\day24.txt" />
+    <Content Include="inputs\2017\day25.txt" />
+    <Content Include="inputs\2018\day22.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

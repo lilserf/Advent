@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Advent
 {
-	public class MinHeap<T> where T : IComparable<T>
+	public class MinHeap<T> : IEnumerable<T>
+		where T : IComparable<T>
 	{
 
 		private T[] m_elements;
@@ -107,6 +109,19 @@ namespace Advent
 				Swap(parentIndex, index);
 				index = parentIndex;
 			}
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			for(int i=0; i < m_size; i++)
+			{
+				yield return m_elements[i];
+			}
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 	}
 }
