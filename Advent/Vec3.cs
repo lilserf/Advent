@@ -188,9 +188,44 @@ namespace Advent
             return b;
         }
 
+        private static Dest Negate(Dest a)
+        {
+            switch(a)
+            {
+                case Dest.PositiveX: return Dest.NegativeX;
+                case Dest.NegativeX: return Dest.PositiveX;
+                case Dest.PositiveY: return Dest.NegativeY;
+                case Dest.NegativeY: return Dest.PositiveY;
+                case Dest.PositiveZ: return Dest.NegativeZ;
+                case Dest.NegativeZ: return Dest.PositiveZ;
+                default: throw new InvalidOperationException();
+            }
+        }
+
+        private static Dest Map(Dest a, Vec3Rotation b)
+        {
+            switch(a)
+            {
+                case Dest.PositiveX: return b.m_x;
+                case Dest.NegativeX: return Negate(b.m_x);
+                case Dest.PositiveY: return b.m_y;
+                case Dest.NegativeY: return Negate(b.m_y);
+                case Dest.PositiveZ: return b.m_z;
+                case Dest.NegativeZ: return Negate(b.m_z);
+                default: throw new InvalidOperationException();
+            }
+        }
+
+
         public static Vec3Rotation operator*(Vec3Rotation a, Vec3Rotation b)
         {
+            Vec3Rotation result = new Vec3Rotation();
 
+            result.m_x = Map(a.m_x, b);
+            result.m_y = Map(a.m_y, b);
+            result.m_z = Map(a.m_z, b);
+
+            return result;
         }
 
         public static Vec3 operator*(Vec3 a, Vec3Rotation b)
