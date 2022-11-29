@@ -132,16 +132,16 @@ namespace Advent
 
     public struct Vec3Rotation
     {
-        public static readonly Vec3Rotation ZRight = new Vec3Rotation(Dest.PositiveY, Dest.NegativeX, Dest.PositiveZ);
-        public static readonly Vec3Rotation ZLeft = new Vec3Rotation(Dest.NegativeY, Dest.PositiveX, Dest.PositiveZ);
+        public static readonly Vec3Rotation Z90 = new Vec3Rotation(Dest.PositiveY, Dest.NegativeX, Dest.PositiveZ);
+        public static readonly Vec3Rotation Z270 = new Vec3Rotation(Dest.NegativeY, Dest.PositiveX, Dest.PositiveZ);
         public static readonly Vec3Rotation Z180 = new Vec3Rotation(Dest.NegativeX, Dest.NegativeY, Dest.PositiveZ);
 
-        public static readonly Vec3Rotation XRight = new Vec3Rotation(Dest.PositiveX, Dest.NegativeZ, Dest.PositiveY);
-        public static readonly Vec3Rotation XLeft = new Vec3Rotation(Dest.PositiveX, Dest.PositiveZ, Dest.NegativeY);
+        public static readonly Vec3Rotation X90 = new Vec3Rotation(Dest.PositiveX, Dest.NegativeZ, Dest.PositiveY);
+        public static readonly Vec3Rotation X270 = new Vec3Rotation(Dest.PositiveX, Dest.PositiveZ, Dest.NegativeY);
         public static readonly Vec3Rotation X180 = new Vec3Rotation(Dest.PositiveX, Dest.NegativeY, Dest.NegativeZ);
 
-        public static readonly Vec3Rotation YRight = new Vec3Rotation(Dest.NegativeZ, Dest.PositiveY, Dest.PositiveX);
-        public static readonly Vec3Rotation YLeft = new Vec3Rotation(Dest.PositiveZ, Dest.PositiveY, Dest.NegativeX);
+        public static readonly Vec3Rotation Y90 = new Vec3Rotation(Dest.NegativeZ, Dest.PositiveY, Dest.PositiveX);
+        public static readonly Vec3Rotation Y270 = new Vec3Rotation(Dest.PositiveZ, Dest.PositiveY, Dest.NegativeX);
         public static readonly Vec3Rotation Y180 = new Vec3Rotation(Dest.NegativeX, Dest.PositiveY, Dest.NegativeZ);
 
         public static readonly Vec3Rotation None = new Vec3Rotation(Dest.PositiveX, Dest.PositiveY, Dest.PositiveZ);
@@ -165,7 +165,7 @@ namespace Advent
             m_z = z;
         }
 
-        private void ApplyOne(int src, Vec3 dest, Dest op)
+        private void ApplyOne(int src, ref Vec3 dest, Dest op)
         {
             switch(op)
             {
@@ -182,9 +182,9 @@ namespace Advent
         public Vec3 Apply(Vec3 a)
         {
             Vec3 b = new Vec3();
-            ApplyOne(a.X, b, m_x);
-            ApplyOne(a.Y, b, m_y);
-            ApplyOne(a.Z, b, m_z);
+            ApplyOne(a.X, ref b, m_x);
+            ApplyOne(a.Y, ref b, m_y);
+            ApplyOne(a.Z, ref b, m_z);
             return b;
         }
 
@@ -231,6 +231,11 @@ namespace Advent
         public static Vec3 operator*(Vec3 a, Vec3Rotation b)
         {
             return b.Apply(a);
+        }
+
+        public override string ToString()
+        {
+            return $"{m_x}, {m_y}, {m_z}";
         }
     }
 }
