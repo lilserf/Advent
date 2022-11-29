@@ -36,7 +36,7 @@ namespace Advent
 			}
 			int year = int.Parse(matches.Groups[1].Value);
 
-			matches = Regex.Match(t.Name, @"Day(\d+)Strategy");
+			matches = Regex.Match(t.Name, @"Day(\d+)(Strategy)?");
 			if (!matches.Success)
 			{
 				return null;

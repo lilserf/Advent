@@ -1,146 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4DE9A502-6068-4843-A686-9617B14E0AE5}</ProjectGuid>
+    <TargetFramework>net7.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>Advent2020</RootNamespace>
     <AssemblyName>Advent2020</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Array.cs" />
-    <Compile Include="Day.cs" />
-    <Compile Include="DayInputFileStrategy.cs" />
-    <Compile Include="DayMapInputFileStrategy.cs" />
-    <Compile Include="DayRunner.cs" />
-    <Compile Include="DayRunnerLineLoaderStrategy.cs" />
-    <Compile Include="FuncComparer.cs" />
-    <Compile Include="Hash.cs" />
-    <Compile Include="IDay.cs" />
-    <Compile Include="IDayLineLoader.cs" />
-    <Compile Include="IDayPartRunner.cs" />
-    <Compile Include="IDayStrategy.cs" />
-    <Compile Include="LLNode.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="MinHeap.cs" />
-    <Compile Include="Permuter.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionRunner.cs" />
-    <Compile Include="Vec2.cs" />
-    <Compile Include="Vec3.cs" />
-    <Compile Include="Vec4.cs" />
-    <Compile Include="Year2017\Day14Strategy.cs" />
-    <Compile Include="Year2017\Day15Strategy.cs" />
-    <Compile Include="Year2017\Day16Strategy.cs" />
-    <Compile Include="Year2017\Day17Strategy.cs" />
-    <Compile Include="Year2017\Day18Strategy.cs" />
-    <Compile Include="Year2017\Day19Strategy.cs" />
-    <Compile Include="Year2017\Day20Strategy.cs" />
-    <Compile Include="Year2017\Day21Strategy.cs" />
-    <Compile Include="Year2017\Day22Strategy.cs" />
-    <Compile Include="Year2017\Day23Strategy.cs" />
-    <Compile Include="Year2017\Day24Strategy.cs" />
-    <Compile Include="Year2017\Day25Strategy.cs" />
-    <Compile Include="Year2018\Day22Strategy.cs" />
-    <Compile Include="Year2019\Day01Strategy.cs" />
-    <Compile Include="Year2019\Day02Strategy.cs" />
-    <Compile Include="Year2019\Day03Strategy.cs" />
-    <Compile Include="Year2019\Day04Strategy.cs" />
-    <Compile Include="Year2019\Day05Strategy.cs" />
-    <Compile Include="Year2019\Day06Strategy.cs" />
-    <Compile Include="Year2019\Day07Strategy.cs" />
-    <Compile Include="Year2019\Day08Strategy.cs" />
-    <Compile Include="Year2019\Day09Strategy.cs" />
-    <Compile Include="Year2019\Day10Strategy.cs" />
-    <Compile Include="Year2019\Day11Strategy.cs" />
-    <Compile Include="Year2019\Day12Strategy.cs" />
-    <Compile Include="Year2019\Day13Strategy.cs" />
-    <Compile Include="Year2019\Day14Strategy.cs" />
-    <Compile Include="Year2019\Day15Strategy.cs" />
-    <Compile Include="Year2019\Day16Strategy.cs" />
-    <Compile Include="Year2019\Day17Strategy.cs" />
-    <Compile Include="Year2019\Day18Strategy.cs" />
-    <Compile Include="Year2019\Day18Strategy2.cs" />
-    <Compile Include="Year2019\Day19Strategy.cs" />
-    <Compile Include="Year2019\Day20Strategy.cs" />
-    <Compile Include="Year2019\Day21Strategy.cs" />
-    <Compile Include="Year2019\Day22Strategy.cs" />
-    <Compile Include="Year2019\Day23Strategy.cs" />
-    <Compile Include="Year2019\Day24Strategy.cs" />
-    <Compile Include="Year2019\Day25Strategy.cs" />
-    <Compile Include="Year2019\DayIntCodeStrategy.cs" />
-    <Compile Include="Year2019\IntCode.cs" />
-    <Compile Include="Year2020\Day01Strategy.cs" />
-    <Compile Include="Year2020\Day02Strategy.cs" />
-    <Compile Include="Year2020\Day03Strategy.cs" />
-    <Compile Include="Year2020\Day04Strategy.cs" />
-    <Compile Include="Year2020\Day05Strategy.cs" />
-    <Compile Include="Year2020\Day06Strategy.cs" />
-    <Compile Include="Year2020\Day07Strategy.cs" />
-    <Compile Include="Year2020\Day08Strategy.cs" />
-    <Compile Include="Year2020\Day09Strategy.cs" />
-    <Compile Include="Year2020\Day10Strategy.cs" />
-    <Compile Include="Year2020\Day11Strategy.cs" />
-    <Compile Include="Year2020\Day12Strategy.cs" />
-    <Compile Include="Year2020\Day13Strategy.cs" />
-    <Compile Include="Year2020\Day14Strategy.cs" />
-    <Compile Include="Year2020\Day15Strategy.cs" />
-    <Compile Include="Year2020\Day16Strategy.cs" />
-    <Compile Include="Year2020\Day17Strategy.cs" />
-    <Compile Include="Year2020\Day18Strategy.cs" />
-    <Compile Include="Year2020\Day19Strategy.cs" />
-    <Compile Include="Year2020\Day20Strategy.cs" />
-    <Compile Include="Year2020\Day21Strategy.cs" />
-    <Compile Include="Year2020\Day22Strategy.cs" />
-    <Compile Include="Year2020\Day23Strategy.cs" />
-    <Compile Include="Year2020\Day24Strategy.cs" />
-    <Compile Include="Year2020\Day25Strategy.cs" />
-    <Compile Include="Year2020\Handheld.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
   <ItemGroup>
     <Content Include="inputs\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="inputs\2021\day19-test0.txt" />
     <Content Include="inputs\2017\day14.txt" />
     <Content Include="inputs\2017\day15.txt" />
     <Content Include="inputs\2017\day16.txt" />
@@ -155,6 +25,17 @@
     <Content Include="inputs\2017\day24.txt" />
     <Content Include="inputs\2017\day25.txt" />
     <Content Include="inputs\2018\day22.txt" />
+    <Content Include="inputs\2021\day19.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="inputs\2022\" />
+    <Folder Include="Year2022\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.355802">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

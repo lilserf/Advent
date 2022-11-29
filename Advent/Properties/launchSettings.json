@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Advent": {
+      "commandName": "Project",
+      "commandLineArgs": "2021"
+    }
+  }
+}
