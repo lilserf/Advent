@@ -95,6 +95,8 @@ namespace Advent2020.Year2021
 
         public override string Part2()
         {
+            // From looking at the algorithm, it's clear that the infinite grid will swap from .... to #### every time you run it
+            // So we pass "what are the outside pixels set to" as an extra param
             var curr = m_map;
             for(int i=0; i < 50; i++)
             {
