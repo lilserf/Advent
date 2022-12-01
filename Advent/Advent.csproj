@@ -17,6 +17,7 @@
     <None Remove="inputs\2021\day22-test1.txt" />
     <None Remove="inputs\2021\day22-test2.txt" />
     <None Remove="inputs\2021\day22.txt" />
+    <None Remove="inputs\2022\day1.txt" />
     <Content Include="inputs\2017\day14.txt" />
     <Content Include="inputs\2017\day15.txt" />
     <Content Include="inputs\2017\day16.txt" />
@@ -32,10 +33,6 @@
     <Content Include="inputs\2017\day25.txt" />
     <Content Include="inputs\2018\day22.txt" />
     <Content Include="inputs\2021\day19.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="inputs\2022\" />
-    <Folder Include="Year2022\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
