@@ -1,6 +1,7 @@
 ﻿using Advent;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -145,6 +146,14 @@ namespace Advent2020.Year2021
         {
         }
 
+        public AmphiState(int a1, int a2, int b1, int b2, int c1, int c2, int d1, int d2)
+        {
+            Positions = new int[] { a1, a2, b1, b2, c1, c2, d1, d2 };
+        }
+
+        public static AmphiState TestMap() => new AmphiState(12, 18, 11, 15, 13, 16, 14, 17);
+        public static AmphiState Problem() => new AmphiState(12, 18, 1, 9, 0, 16, 10, 17);
+
         public AmphiState(AmphiState other)
         {
             for(int i=0; i < 8; i++)
@@ -154,16 +163,125 @@ namespace Advent2020.Year2021
             Cost = other.Cost;
         }
 
+        public override bool Equals(object obj)
+        {
+            if(obj is AmphiState other)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    if (other.Positions[i] != Positions[i])
+                        return false;
+                }
+                return true;
+
+            }
+
+            return false;
+        }
+
+        public bool Equals(int a1, int a2, int b1, int b2, int c1, int c2, int d1, int d2)
+        {
+            return
+                (Positions[0] == a1) &&
+                (Positions[1] == a2) &&
+                (Positions[2] == b1) &&
+                (Positions[3] == b2) &&
+                (Positions[4] == c1) &&
+                (Positions[5] == c2) &&
+                (Positions[6] == d1) &&
+                (Positions[7] == d2);
+
+        }
+
+        //#############
+        //#...........#
+        //###C#D#A#B###
+        //  #B#A#D#C#
+        //  #########
+
+        public void Draw(int indent = 0)
+        {
+            var Indent = (int x) =>
+            {
+                for (int k = 0; k < x; k++)
+                {
+                    Console.Write(" ");
+                }
+            };
+
+            Indent(indent);
+            Console.WriteLine("#############");
+            Indent(indent);
+            Console.Write("#");
+
+            var DrawCell = (int x) =>
+            {
+                string toDraw = ".";
+                for (int j = 0; j < Positions.Length; j++)
+                {
+                    if (Positions[j] == x)
+                    {
+                        switch (GetPodType(j))
+                        {
+                            case Amphipod.Amber:
+                                toDraw ="A"; break;
+                            case Amphipod.Bronze:
+                                toDraw = "B"; break;
+                            case Amphipod.Copper:
+                                toDraw = "C"; break;
+                            case Amphipod.Desert:
+                                toDraw = "D"; break;
+                        }
+                    }
+                }
+
+                Console.Write(toDraw);
+            };
+
+            for(int i=0; i < 11; i++)
+            {
+                DrawCell(i);
+            }
+            Console.WriteLine("#");
+
+            Indent(indent);
+            Console.Write("###");
+            DrawCell(11);
+            Console.Write("#");
+            DrawCell(13);
+            Console.Write("#");
+            DrawCell(15);
+            Console.Write("#");
+            DrawCell(17);
+            Console.WriteLine("###");
+
+            Indent(indent);
+            Console.Write("  #");
+            DrawCell(12);
+            Console.Write("#");
+            DrawCell(14);
+            Console.Write("#");
+            DrawCell(16);
+            Console.Write("#");
+            DrawCell(18);
+            Console.WriteLine("#");
+
+            Indent(indent);
+            Console.WriteLine("  #########");
+        }
+
         public override string ToString()
         {
-            return Positions.Select(x => x.ToString()).Aggregate( (s, x) => s + " " + x) + $" ({Cost})";
+            return Positions.Select(x => x.ToString()).Aggregate( (s, x) => s + " " + x) + $" ({Cost} & {DoneScore()})";
+        }
+
+        public override int GetHashCode()
+        {
+            return Positions.GetHashCode();
         }
 
         // Positions of the 'pods - A, A, B, B, C, C, D, D
-        public int[] Positions { get; set; } =
-        {
-            12, 18, 11, 15, 13, 16, 14, 17
-        };
+        public int[] Positions { get; set; } = new int[8];
         public int Cost = 0;
 
         public AmphiState ApplyMove(int pod, int position, int cost)
@@ -187,9 +305,53 @@ namespace Advent2020.Year2021
                 (Positions[7] == 17 || Positions[7] == 18);
         }
 
+        private bool IsPodCorrect(int x)
+        {
+            int type = x / 2;
+            int curr = Positions[x];
+            if (curr <= 10) return false;
+            return type == (curr - 11) / 2;
+        }
+
+        private bool IsPodBlocked(int x)
+        {
+            // If in the right spot, not blocked
+            if (IsPodCorrect(x)) return false;
+            int curr = Positions[x];
+            // If in hallway, not blocked
+            if (curr <= 10) return false;
+            // If in top row of homes, not blocked
+            if(((curr-11) % 2) == 0) return false;
+
+            // Return true/false based on the guy above us
+            int top = curr - 1;
+            for(int i=0; i < 8; i++)
+            {
+                if (Positions[i] == top)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public int DoneScore()
+        {
+            int penalty = 100000;
+            int score = 0;
+            for(int i=0; i < 8; i++)
+            {
+                if (!IsPodCorrect(i))
+                    score += penalty;
+                //if(IsPodBlocked(i))
+                //    score += penalty;
+            }
+
+            return score;
+        }
+
         public int CompareTo(AmphiState other)
         {
-            return Cost - other.Cost;
+            return (Cost + DoneScore()) - (other.Cost + other.DoneScore());
         }
 
         public static Amphipod GetPodType(int index)
@@ -229,8 +391,12 @@ namespace Advent2020.Year2021
             return state.Positions.Any(x => x == roomIndex);
         }
 
-        public bool IsStoppable(Burrow map, int room, Amphipod podType)
+        public bool IsStoppable(Burrow map, int room, int previous, Amphipod podType)
         {
+            // If we started in a hallway, we can't stop in one
+            if (IsRoomHallway(room) && IsRoomHallway(previous))
+                return false;
+
             return map.Map[room].CanStopHere(podType);
         }
 
@@ -246,28 +412,35 @@ namespace Advent2020.Year2021
 
         public bool PodMatchesRoom(Amphipod pod, int room)
         {
-            switch(room)
-            {
-                case 11:
-                case 12:
-                    return pod == Amphipod.Amber;
-                case 13:
-                case 14:
-                    return pod == Amphipod.Bronze;
-                case 15:
-                case 16:
-                    return pod == Amphipod.Copper;
-                case 17:
-                case 18:
-                    return pod == Amphipod.Desert;
-            }
+            if (room < 11) return true;
+            return pod == CorrectTypeForRoom(room);
+        }
 
-            return true;
+        public Amphipod CorrectTypeForRoom(int room)
+        {
+            if (room < 11) return Amphipod.None;
+
+            switch((room - 11) / 2)
+            {
+                case 0: return Amphipod.Amber;
+                case 1: return Amphipod.Bronze;
+                case 2: return Amphipod.Copper;
+                case 3: return Amphipod.Desert;
+                default: return Amphipod.None;
+            }
         }
 
         public bool IsRoomHallway(int room)
         {
             return room < 11;
+        }
+
+        public bool HomeIsDone(AmphiState state, int room)
+        {
+            int home = (room-11) / 2;
+
+            return ((TypeInRoom(state, home + 11) == CorrectTypeForRoom(home + 11) || TypeInRoom(state, home + 11) == Amphipod.None) &&
+                TypeInRoom(state, home + 12) == CorrectTypeForRoom(home + 12));
         }
 
         public bool CanEnter(Burrow map, AmphiState state, int srcRoom, int destRoom, Amphipod podType)
@@ -277,7 +450,7 @@ namespace Advent2020.Year2021
                 return false;
 
             // If we're already in our home room, we can't move out
-            if (!IsRoomHallway(srcRoom) && PodMatchesRoom(podType, srcRoom))
+            if (!IsRoomHallway(srcRoom) && HomeIsDone(state, srcRoom))
                 return false;
 
             // If we don't match the dest room
@@ -286,10 +459,6 @@ namespace Advent2020.Year2021
                 // It's only okay if we don't match the source room either - meaning we were at the far end of a room to start
                 return !PodMatchesRoom(podType, srcRoom);
             }
-
-            // If we're in a hallway, we can't move to another hallway
-            if(IsRoomHallway(srcRoom) && IsRoomHallway(destRoom))
-                return false;
 
             // If we got here, apparently it's okay to enter this square
             return true;
@@ -312,7 +481,7 @@ namespace Advent2020.Year2021
                 visited.Add(room);
 
                 // If we reached this room and can stop, put it in the move set
-                if(!IsOccupied(map, state, room) && IsStoppable(map, room, podType))
+                if(!IsOccupied(map, state, room) && IsStoppable(map, room, currRoom, podType))
                 {
                     moves[room] = cost;
                 }
@@ -344,25 +513,56 @@ namespace Advent2020.Year2021
         {
             var map = SetupTestMap();
 
-            AmphiState start = new();
+            //AmphiState start = AmphiState.Problem();
+            AmphiState start = AmphiState.TestMap();
             MinHeap<AmphiState> pending = new(100000);
             pending.Add(start);
+            
+            Dictionary<AmphiState, int> visited = new();
+
+            int DoneScore = int.MaxValue;
+
             while(pending.Count() > 0)
             {
                 var curr = pending.Pop();
+                visited.Add(curr, curr.Cost);
                 Console.WriteLine($"Checking state {curr}");
+                curr.Draw();
                 if (curr.Done())
                     return $"Cost is {curr.Cost}";
 
-                for(int i=0; i < 8; i++)
+                if (curr.Equals(12, 18, 11, 3, 13, 16, 14, 17)) // Step 2
+                //if (curr.Equals(12, 18, 11, 3, 15, 16, 14, 17)) // Step 3
+                {
+                    Debugger.Break();
+                }
+
+
+                for (int i=0; i < 8; i++)
                 {
                     var moves = GetMoves(map, curr, i);
+                    Console.WriteLine($"  Checking Amphipod {i}... {moves.Count()} moves!");
+
                     foreach ((var position, var cost) in moves)
                     {
+                        Console.WriteLine($"    Move to {position} for cost {cost}");
                         var newState = curr.ApplyMove(i, position, cost);
+                        Console.WriteLine($"      New state {newState}");
+//                        newState.Draw(8);
 
+                        if (visited.ContainsKey(newState))
+                            Debugger.Break();
                         pending.Add(newState);
+
                     }
+                }
+
+                //Console.ReadKey();
+
+                if(curr.DoneScore() < DoneScore)
+                {
+                    DoneScore= curr.DoneScore();
+                    Console.ReadKey();
                 }
 
             }
