@@ -18,30 +18,6 @@ namespace Advent2020.Year2022
 
         }
 
-        private int NumVisible(Vec2 start, Vec2 step)
-        {
-            Vec2 curr = start;
-            int numVisible = 0;
-            int maxHeight = -1;
-
-            while(m_map.ContainsKey(curr))
-            {
-                int currVal = m_map[curr];
-                if (currVal > maxHeight)
-                {
-                    numVisible++;
-                    maxHeight = currVal;
-                }
-                if (currVal == 9)
-                    break;
-
-                curr += step;
-
-            }
-
-            return numVisible;
-        }
-
         private bool IsBlocked(Vec2 pos, Vec2 step)
         {
             var value = m_map[pos];
