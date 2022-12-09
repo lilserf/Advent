@@ -72,6 +72,13 @@ namespace Advent
         {
             return (other == this);
         }
+
+        public Vec2 ClampToUnit()
+        {
+            var x = X == 0 ? 0 : Math.Abs(X) / X;
+            var y = Y == 0 ? 0 : Math.Abs(Y) / Y;
+            return new Vec2(x, y);
+        }
         public override int GetHashCode()
         {
             return Hash.Create(X, Y);
