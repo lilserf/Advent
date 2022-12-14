@@ -93,6 +93,16 @@ namespace Advent
         }
         public string DebuggerDisplay { get { return ToString(); } }
 
+        public static Vec2 Parse(string s)
+        {
+            var split = s.Split(',');
+            Vec2 newVec = new();
+
+            newVec.X = int.Parse(split[0]);
+            newVec.Y = int.Parse(split[1]);
+            return newVec;
+        }
+
         public void Rotate90CounterClockwise()
         {
             X = X * -1;
