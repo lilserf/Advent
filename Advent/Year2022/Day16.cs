@@ -51,6 +51,7 @@ namespace Advent2020.Year2022
         class State : IComparable<State>
         {
             public string CurrRoom { get; set; } = "AA";
+            public string ElephantRoom { get; set; } = "AA";
             public int ReleasePerTick { get; set; } = 0;
             public int TotalReleased { get; set; } = 0;
             public int Minutes { get; set; } = 1;
@@ -205,19 +206,19 @@ namespace Advent2020.Year2022
             return newState;
         }
 
+        Dictionary<(string, string), int> m_distances = new();
+
         public override string Part1()
         {
-            Dictionary<(string, string), int> distances = new();
 
             foreach(var start in m_rooms.Keys)
             {
                 foreach(var end in m_rooms.Keys)
                 {
                     int distance = Distance(start, end);
-                    distances[(start, end)] = distance;
+                    m_distances[(start, end)] = distance;
                 }
             }
-
 
             MinHeap<State> heap = new(1000);
 
@@ -257,7 +258,7 @@ namespace Advent2020.Year2022
                     // Don't move to a valve that's already open
                     if (curr.OpenedValves.Contains(room.Name))
                         continue;
-                    int elapsed = distances[(curr.CurrRoom, room.Name)];
+                    int elapsed = m_distances[(curr.CurrRoom, room.Name)];
                     newState = MoveTo(newState, room.Name);
 
                     // If we can't get there, simulate finishing the 30 minutes
@@ -356,9 +357,9 @@ namespace Advent2020.Year2022
             return max.ToString();
         }
 
+
         public override string Part2()
         {
-            return "";
         }
     }
 }
