@@ -66,14 +66,9 @@ namespace Advent2020.Year2022
             return (true, result);
         }
 
-        public override string Part1()
+        HashSet<Vec2> GetSpansForY(int yVal, int xMin, int xMax)
         {
             HashSet<Vec2> spans = new();
-
-            //int yVal = 10;
-            int yVal = 2000000;
-
-            //int yVal = 8;
 
             foreach (var (s, b) in m_sensors)
             {
@@ -81,67 +76,113 @@ namespace Advent2020.Year2022
                 m_distances[s] = dist;
 
                 (var success, Vec2 span) = GetSpanAtDistanceAndY(s, dist, yVal);
-                if(success)
+                if (success)
                 {
+                    if (span.Y > xMax)
+                        span.Y = xMax;
+                    if (span.X < xMin)
+                        span.X = xMin;
                     spans.Add(span);
                 }
             }
 
-            var min = spans.Count == 0 ? 0 : spans.Min(s => s.X);
-            var max = spans.Count == 0 ? 0 : spans.Max(x => x.Y);
+            return spans;
+        }
 
-            m_min = min;
-            m_max = max;
+        int NumEliminatedSpaces(int yVal, int xMin, int xMax)
+        {
+            HashSet<Vec2> spans = GetSpansForY(yVal, xMin, xMax);
 
             Queue<Vec2> left = new Queue<Vec2>(spans);
             HashSet<Vec2> eaten = new();
 
-            while(left.Count > 1)
+            int timeout = spans.Count;
+            int currTime = timeout;
+            while (left.Count > 1)
             {
+                if(currTime == 0)
+                {
+                    break;
+                }
+
                 var span = left.Dequeue();
                 if (eaten.Contains(span))
                     continue;
-                
-                foreach(var other in left)
+
+                foreach (var other in left)
                 {
                     (var success, Vec2 combined) = CollapseSpan(span, other);
-                    if(success)
+                    if (success)
                     {
+                        currTime = timeout;
                         eaten.Add(other);
                         span = combined;
                     }
                 }
 
                 left.Enqueue(span);
+                currTime--;
             }
 
-            int sum2 = max - min + 1;
-
             int sum = 0;
-            foreach(var span in left)
+            foreach (var span in left)
             {
                 sum += span.Y - span.X + 1;
             }
 
+            return sum;
+        }
+
+        public override string Part1()
+        {
+            //int yVal = 10;
+            int yVal = 2000000;
+
+            //int yVal = 8;
+
+            int sum = NumEliminatedSpaces(yVal, -4000000, 8000000);
+ 
             var possible = m_sensors.Values.Where(s => s.Y == yVal).ToHashSet();
 
-            Console.WriteLine($"Min is {min}, Max is {max}");
-            foreach(var s in possible)
-            {
-                Console.WriteLine($"  Beacon at {s} is inside span: {s.X >= min && s.X <= max}");
-            }
+            //Console.WriteLine($"Min is {min}, Max is {max}");
+            //foreach(var s in possible)
+            //{
+            //    Console.WriteLine($"  Beacon at {s} is inside span: {s.X >= min && s.X <= max}");
+            //}
 
             sum -= possible.Count;
 
             return sum.ToString();
         }
 
-        int m_min;
-        int m_max;
-
         public override string Part2()
         {
+            int yLimit = 4000000;
+            //int yLimit = 20;
+            int xMax = 4000000;
+            //int xMax = 20;
+
+            int foundY = 0;
+            for (int y = 0; y < yLimit; y++)
+            {
+                int elim = NumEliminatedSpaces(y, 0, xMax);
+
+                if(elim < xMax+1)
+                {
+                    foundY = y;
+                    break;
+                }
+            }
+
+            var spans = GetSpansForY(foundY, 0, xMax);
+            for(int x = 0; x < xMax; x++)
+            {
+                if (spans.All(s => s.X > x || s.Y < x))
+                    return ((long)x * 4000000 + foundY).ToString();
+            }
+
             return "";
         }
+
     }
 }
