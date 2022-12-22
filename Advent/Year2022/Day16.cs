@@ -51,7 +51,6 @@ namespace Advent2020.Year2022
         class State : IComparable<State>
         {
             public string CurrRoom { get; set; } = "AA";
-            public string ElephantRoom { get; set; } = "AA";
             public int ReleasePerTick { get; set; } = 0;
             public int TotalReleased { get; set; } = 0;
             public int Minutes { get; set; } = 1;
@@ -196,10 +195,10 @@ namespace Advent2020.Year2022
             throw new InvalidOperationException();
         }
 
-        State RunToEnd(State curr)
+        State RunToEnd(State curr, int endMin = 30)
         {
             State newState = new State(curr);
-            for (int i = curr.Minutes; i < 30; i++)
+            for (int i = curr.Minutes; i < endMin; i++)
             {
                 newState = Tick(newState);
             }
@@ -286,80 +285,158 @@ namespace Advent2020.Year2022
             return max.ToString();
         }
 
-        public string Part1TooSlow()
-        { 
-            MinHeap<State> heap = new(100000);
 
-            State start = new State();
-            foreach (var neighbor in m_rooms["AA"].Neighbors)
+        class Part2State : IComparable<Part2State>
+        {
+            public string MyRoom { get; set; } = "AA";
+            public int MyArrival { get; set; } = 0;
+            public string EleRoom { get; set; } = "AA";
+            public int EleArrival { get; set; } = 0;
+            public int Minutes { get; set; } = 0;
+            public int FlowRate { get; set; } = 0;
+            public int Total { get; set; } = 0;
+
+            public List<string> OpenedValves { get; set; } = new();
+
+            public Part2State()
             {
-                var moveState = MoveTo(start, neighbor);
-                moveState = Tick(moveState);
-                if (!moveState.ValveIsOpen() && m_rooms[moveState.CurrRoom].FlowRate > 0)
-                {
-                    moveState = OpenValve(moveState);
-                    moveState = Tick(moveState);
-                }
-                heap.Add(moveState);
             }
+
+            public Part2State(Part2State other)
+            {
+                MyRoom = other.MyRoom;
+                MyArrival = other.MyArrival;
+                EleRoom = other.EleRoom;
+                EleArrival = other.EleArrival;
+                FlowRate = other.FlowRate;
+                Total = other.Total;
+                OpenedValves = new List<string>(other.OpenedValves);
+            }
+
+
+            public int Projected => Total+ (FlowRate * (26 - Minutes));
+            public int CompareTo(Part2State other)
+            {
+                if (other.Projected != this.Projected)
+                    return other.Projected - this.Projected;
+                if (other.Total!= this.Total)
+                    return other.Total- this.Total;
+                return this.Minutes - other.Minutes;
+            }
+        }
+
+
+        Part2State Tick(Part2State curr)
+        {
+            Part2State newState = new (curr);
+            newState.Minutes++;
+            newState.Total += newState.FlowRate;
+            return newState;
+        }
+
+        Part2State MoveMeTo(Part2State curr, string room)
+        {
+            Part2State newState = new(curr);
+            newState.MyRoom = room;
+            newState.MyArrival = newState.Minutes + m_distances[(curr.MyRoom, room)];
+            return newState;
+        }
+
+        Part2State MoveElephantTo(Part2State curr, string room)
+        {
+            Part2State newState = new(curr);
+            newState.EleRoom = room;
+            newState.EleArrival = newState.Minutes + m_distances[(curr.EleRoom, room)]; 
+            return newState;
+        }
+        Part2State OpenValve(Part2State curr, string room)
+        {
+            if (curr.OpenedValves.Contains(room))
+                throw new InvalidOperationException();
+
+            Room r = m_rooms[room];
+            Part2State newState = new (curr);
+            newState.FlowRate += r.FlowRate;
+            newState.OpenedValves.Add(room);
+            return newState;
+        }
+
+        public override string Part2()
+        {
+            MinHeap<Part2State> heap = new(1000);
+
+            Part2State first = new();
+            heap.Add(first);
 
             int max = 0;
 
-            int allValvesOpen = m_rooms.Values.Sum(x => x.FlowRate);
-
-            int count = 0;
-            while(heap.Count() > 0)
+            while (heap.Count() > 0)
             {
-                count++;
-                if(count % 1000000 == 0)
-                {
-                    Console.WriteLine($"Heap has {heap.Count()} states, best so far is {max}");
-
-                    //foreach (var state in heap)
-                    //{
-                    //    Console.WriteLine($"  {state}");
-                    //}
-                }
-
                 var curr = heap.Pop();
-                var room = m_rooms[curr.CurrRoom];
+                //Console.WriteLine($"Checking state {curr}...");
 
-                if(curr.Minutes >= 30)
+                if (curr.Minutes >= 26)
                 {
-                    if (curr.TotalReleased > max)
+                    if (curr.Total> max)
                     {
-                        max = curr.TotalReleased;
-                        Console.WriteLine($"New max of {max} for order {curr.OpenedValves.Aggregate("", (s,x) => s += " " + x)}");
+                        max = curr.Total;
+                        Console.WriteLine($"New max of {max} for order {curr.OpenedValves.Aggregate("", (s, x) => s += " " + x)}");
                     }
                     continue;
                 }
 
-                if(!CanBeatMax(curr, allValvesOpen, max))
-                    continue;
+                bool me = false;
 
-                if(!curr.ValveIsOpen() && m_rooms[curr.CurrRoom].FlowRate > 0)
-                {
-                    var valveState = OpenValve(curr);
-                    valveState = Tick(valveState);
-                    if(CanBeatMax(valveState, allValvesOpen, max))
-                        heap.Add(valveState);
-                }
+                if (curr.Minutes == curr.MyArrival)
+                    me = true;
 
-                foreach(var neighbor in room.Neighbors)
+                string currRoom = curr.EleRoom;
+                if (me) currRoom = curr.MyRoom;
+
+                foreach (var room in m_rooms.Values)
                 {
-                    var moveState = MoveTo(curr, neighbor);
-                    moveState = Tick(moveState);
-                    if (CanBeatMax(moveState, allValvesOpen, max))
-                        heap.Add(moveState);
+                    var newState = new Part2State(curr);
+                    // Don't move to ourself - instead just sim out staying here the whole time
+                    if (room.Name == currRoom)
+                    {
+                        newState = RunToEnd(curr);
+                        heap.Add(newState);
+                        continue;
+                    }
+                    // Don't move to a useless valve
+                    if (room.FlowRate == 0)
+                        continue;
+                    // Don't move to a valve that's already open
+                    if (curr.OpenedValves.Contains(room.Name))
+                        continue;
+                    
+                    int elapsed = m_distances[(currRoom, room.Name)];
+                    
+                    if (me)
+                        newState = MoveMeTo(newState, room.Name);
+                    else
+                        newState = MoveElephantTo(newState, room.Name);
+
+                    // If we can't get there, simulate finishing the 30 minutes
+                    if (curr.Minutes + elapsed >= 30)
+                    {
+                        newState = RunToEnd(newState);
+                        heap.Add(newState);
+                        continue;
+                    }
+
+                    // Tick the state for the time to get there
+                    for (int i = 0; i < elapsed; i++)
+                    {
+                        newState = Tick(newState);
+                    }
+                    // Tick the state for a minute to open the valve
+                    newState = OpenValve(newState);
+                    newState = Tick(newState);
+
+                    //Console.WriteLine($"  Adding transition to {room.Name} taking {elapsed} minutes...");
+                    heap.Add(newState);
                 }
             }
-
-            return max.ToString();
-        }
-
-
-        public override string Part2()
-        {
-        }
     }
 }
