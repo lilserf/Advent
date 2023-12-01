@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2017
+namespace Advent.Year2017
 {
 
 	class State

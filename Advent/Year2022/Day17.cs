@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Advent2020.Year2022
+namespace Advent.Year2022
 {
     internal class Day17 : DayLineLoaderBasic
     {

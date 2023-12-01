@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2020
+namespace Advent.Year2020
 {
 	class Day08Strategy : DayStrategyBasic
 	{

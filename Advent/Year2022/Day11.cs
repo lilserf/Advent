@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2022
+namespace Advent.Year2022
 {
     public struct Item
     {

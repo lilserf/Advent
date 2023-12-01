@@ -1,5 +1,5 @@
 ﻿using Advent;
-using Advent2020.Year2021;
+using Advent.Year2021;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2022
+namespace Advent.Year2022
 {
     internal class Day16 : DayLineLoaderBasic
     {

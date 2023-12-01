@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2021
+namespace Advent.Year2021
 {
     internal class Day20 : DayLineLoaderBasic
     {

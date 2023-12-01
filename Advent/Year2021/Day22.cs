@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2021
+namespace Advent.Year2021
 {
     struct Operation
     {

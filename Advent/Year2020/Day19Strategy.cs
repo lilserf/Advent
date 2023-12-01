@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2020
+namespace Advent.Year2020
 {
 	class Rule
 	{

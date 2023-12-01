@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Advent2020.Year2022
+namespace Advent.Year2022
 {
     class RegisterState
     {
