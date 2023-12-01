@@ -1,9 +1,13 @@
 ﻿using Advent;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Advent2020.Year2022
 {
@@ -36,7 +40,19 @@ namespace Advent2020.Year2022
                 return current;
             }
             // TODO: check for collision with existing shapes
+            if(DoForShape(shape, newPos, CheckForCollision))
+            {
+                return current;
+            }
+
             return newPos;
+        }
+
+        private bool CheckForCollision(Vec2 arg)
+        {
+            if (m_map[arg.Y, arg.X] == '#')
+                return true;
+            return false;
         }
 
         private (Vec2, bool) MoveDown(Shape shape, Vec2 current)
@@ -113,15 +129,23 @@ namespace Advent2020.Year2022
             }
         }
 
-        private void BlitShape(Shape shape, Vec2 pos)
+        private bool Blit(Vec2 pos)
         {
+            m_map[pos.Y, pos.X] = '#';
+            return true;
+        }
+
+        private bool DoForShape(Shape shape, Vec2 pos, Func<Vec2, bool> op)
+        {
+            bool result = false;
             switch (shape)
             {
                 case Shape.Horiz:
                     {
                         for(int i=0; i < WIDTH[(int)shape]; i++)
                         {
-                            m_map[pos.Y, pos.X + i] = '#';
+                            bool b = op(new Vec2(pos.X + i, pos.Y));
+                            result = result || b;
                         }
                         break;
                     }
@@ -129,40 +153,56 @@ namespace Advent2020.Year2022
                     {
                         for(int i=0; i < HEIGHT[(int)shape]; i++)
                         {
-                            m_map[pos.Y - i, pos.X] = '#';
+                            bool b = op(new Vec2(pos.X, pos.Y-i));
+                            result = result || b;
                         }
                         break;
                     }
                 case Shape.Square:
                     {
-                        m_map[pos.Y, pos.X] = '#';
-                        m_map[pos.Y-1, pos.X] = '#';
-                        m_map[pos.Y, pos.X+1] = '#';
-                        m_map[pos.Y-1, pos.X+1] = '#';
+                        bool b = op(new Vec2(pos.X, pos.Y));
+                        result = result || b;
+                        b = op(new Vec2(pos.X, pos.Y - 1));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 1, pos.Y));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 1, pos.Y - 1));
+                        result = result || b;
                         break;
                     }
                 case Shape.Angle:
                     {
-                        m_map[pos.Y - 0, pos.X + 2] = '#';
-                        m_map[pos.Y - 1, pos.X + 2] = '#';
-                        m_map[pos.Y - 2, pos.X + 2] = '#';
-                        m_map[pos.Y - 2, pos.X + 1] = '#';
-                        m_map[pos.Y - 2, pos.X + 0] = '#';
+                        bool b = op(new Vec2(pos.X + 2, pos.Y - 0));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 2, pos.Y - 1));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 2, pos.Y - 2));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 1, pos.Y - 2));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 0, pos.Y - 2));
+                        result = result || b;
                         break;
                     }
                 case Shape.Plus:
                     {
-                        m_map[pos.Y - 0, pos.X + 1] = '#';
-                        m_map[pos.Y - 1, pos.X + 1] = '#';
-                        m_map[pos.Y - 2, pos.X + 1] = '#';
+                        bool b = op(new Vec2(pos.X + 1, pos.Y - 0));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 1, pos.Y - 1));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 1, pos.Y - 2));
+                        result = result || b;
 
-                        m_map[pos.Y - 1, pos.X + 0] = '#';
-                        m_map[pos.Y - 1, pos.X + 2] = '#';
+                        b = op(new Vec2(pos.X + 0, pos.Y - 1));
+                        result = result || b;
+                        b = op(new Vec2(pos.X + 2, pos.Y - 1));
+                        result = result || b;
 
                         break;
                     }
 
             }
+            return result;
         }
 
         private void PrintMap(Vec2 curr, Shape shape)
@@ -184,47 +224,56 @@ namespace Advent2020.Year2022
             }
         }
 
-        public override string Part1()
+        public void DoWork(int num)
         {
             ClearMap();
             Shape[] shapes = { Shape.Horiz, Shape.Plus, Shape.Angle, Shape.Vert, Shape.Square };
             int jet = 0;
             int shape = 0;
+            m_highest = 0;
 
-            for(int count = 0; count < 2022; count++)
+            for (int count = 0; count < num; count++)
             {
                 bool landed = false;
                 Shape curr = shapes[shape];
                 Vec2 pos = new Vec2(2, m_highest + 2 + HEIGHT[(int)curr]);
 
-                while(!landed)
+                while (!landed)
                 {
                     char jetDir = m_jets[jet];
                     pos = MoveLeftRight(curr, pos, jetDir == '<' ? Vec2.Left : Vec2.Right);
-                    Console.WriteLine("Jet pushed " + (jetDir == '<' ? "Left" : "Right"));
-                    PrintMap(pos, curr);
+                    //Console.WriteLine("Jet pushed " + (jetDir == '<' ? "Left" : "Right"));
+                    //PrintMap(pos, curr);
                     (pos, landed) = MoveDown(curr, pos);
-                    Console.WriteLine($"Rock falls 1 unit, landed: {landed}");
-                    PrintMap(pos, curr);
+                    //Console.WriteLine($"Rock falls 1 unit, landed: {landed}");
+                    //PrintMap(pos, curr);
 
                     jet = (jet + 1) % m_jets.Length;
 
-                    Console.ReadKey();
-                    Console.WriteLine("--------------");
+                    //Console.ReadKey();
+                    //Console.WriteLine("--------------");
                 }
 
-                BlitShape(curr, pos);
-                m_highest = pos.Y + 1;
+                DoForShape(curr, pos, Blit);
+                m_highest = Math.Max(m_highest, pos.Y + 1);
                 shape = (shape + 1) % shapes.Length;
 
             }
 
-            return "blah";
+        }
+
+        public override string Part1()
+        {
+            DoWork(2022);
+            return $"Highest is {m_highest}";
         }
 
         public override string Part2()
         {
-            throw new NotImplementedException();
+            // Need to do this:
+            //In this case, you can memorize the current place in the jet pattern, together with the current rock shape. If you know how many rocks had stopped and the height of the tower the last time you saw that pair, then you know the size of the cycle. If you also keep track of the maximum vertical distance that a rock falls before stopping, then you know that all the rows below the distance from the top are set in stone. :-) That lets you verify the pattern against the tower to see that the cycle really is repeating.
+            DoWork(0);
+            return "stub";
         }
     }
 }
