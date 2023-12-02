@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Advent2020</RootNamespace>
+    <RootNamespace>Advent</RootNamespace>
     <AssemblyName>Advent2020</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -44,6 +44,8 @@
     <None Remove="inputs\2022\day8-test0.txt" />
     <None Remove="inputs\2022\day8.txt" />
     <None Remove="inputs\2022\day9.txt" />
+    <None Remove="inputs\2023\day01.txt" />
+    <None Remove="inputs\2023\day02.txt" />
     <Content Include="inputs\2017\day14.txt" />
     <Content Include="inputs\2017\day15.txt" />
     <Content Include="inputs\2017\day16.txt" />

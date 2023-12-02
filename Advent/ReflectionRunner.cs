@@ -54,14 +54,28 @@ namespace Advent
 				{
 					testFiles.Add(check);
 				}
-			}
+                check = Path.Combine(filePath, $"day{day:D2}-test{i:D2}.txt");
+                if (File.Exists(check))
+                {
+                    testFiles.Add(check);
+                }
+            }
 
-			if (inputFilePath == null)
+            if (inputFilePath == null)
 			{
-				inputFilePath = Path.Combine(filePath, $"day{day}.txt");
-			}
+				var check = Path.Combine(filePath, $"day{day}.txt");
+				if (File.Exists(check))
+				{
+					inputFilePath = check;
+				}
+				check = Path.Combine(filePath, $"day{day:D2}.txt");
+                if (File.Exists(check))
+                {
+                    inputFilePath = check;
+                }
+            }
 
-			Record r = new Record();
+            Record r = new Record();
 			r.m_year = year;
 			r.m_day = day;
 			r.m_strategyType = t;
