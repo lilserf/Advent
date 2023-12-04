@@ -31,7 +31,7 @@ namespace Advent.Year2022
     internal class Day4 : DayLineLoaderBasic
     {
         List<(Span, Span)> m_spans = new();
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             var split = line.Split(',');
             var first = split[0].Split('-');

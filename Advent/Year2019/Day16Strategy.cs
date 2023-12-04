@@ -164,7 +164,7 @@ namespace Advent.Year2019
 			return GetAnswer(m_working1, m_offset);
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			m_offset = int.Parse(line.Substring(0, 7));
 			foreach(char c in line)

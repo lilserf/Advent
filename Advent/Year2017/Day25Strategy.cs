@@ -77,7 +77,7 @@ namespace Advent.Year2017
 
 		Dictionary<char, State> m_states = new Dictionary<char, State>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			if(string.IsNullOrWhiteSpace(line))
 			{

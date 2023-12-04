@@ -121,7 +121,7 @@ namespace Advent.Year2021
     {
         List<Operation> m_operations = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             Regex r = new Regex(@"(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)");
 

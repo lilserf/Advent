@@ -204,7 +204,7 @@ namespace Advent.Year2020
 			return exprStack.Pop();
 		}
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			m_data.Add(line);
 		}

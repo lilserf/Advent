@@ -37,15 +37,17 @@ namespace Advent
         {
             string line;
             ParseInputLinesBegin(sr);
+            int lineNum = 0;
             while (null != (line = sr.ReadLine()))
             {
-                ParseInputLine(line);
+                ParseInputLine(line, lineNum);
+                lineNum++;
             }
             ParseInputLinesEnd(sr);
         }
 
         protected virtual void ParseInputLinesBegin(StreamReader sr) { }
-        protected virtual void ParseInputLine(string line) { }
+        protected virtual void ParseInputLine(string line, int lineNum) { }
         protected virtual void ParseInputLinesEnd(StreamReader sr) { }
 
         protected static Match MatchLine(string line, Regex regex)

@@ -64,7 +64,7 @@ namespace Advent.Year2022
         Dictionary<int, Monkey> m_monkeys = new();
 
         Monkey m_curr;
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             if(line.StartsWith("Monkey "))
             {

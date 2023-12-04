@@ -13,7 +13,7 @@ namespace Advent.Year2022
         List<List<int>> m_elves = new();
         List<int> m_curr = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             if(string.IsNullOrEmpty(line))
             {

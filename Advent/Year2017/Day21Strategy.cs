@@ -220,7 +220,7 @@ namespace Advent.Year2017
 		List<Rule> m_rules = new List<Rule>();
 
 		int m_count = 0;
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			m_rules.Add(new Rule(m_count, line));
 			m_count++;

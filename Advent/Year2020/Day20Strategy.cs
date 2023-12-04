@@ -396,7 +396,7 @@ namespace Advent.Year2020
 		Dictionary<int, Tile> m_tiles = new Dictionary<int, Tile>();
 
 		Tile m_curr = null;
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			if (string.IsNullOrWhiteSpace(line))
 				return;

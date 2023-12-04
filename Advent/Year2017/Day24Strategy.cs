@@ -54,7 +54,7 @@ namespace Advent.Year2017
 
 		List<(int, int)> m_pairs = new List<(int, int)>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			var splits = line.Split('/');
 			int aVal = int.Parse(splits[0]);

@@ -12,7 +12,7 @@ namespace Advent.Year2022
     {
         Dictionary<Vec2, char> m_map = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             var split = line.Split(" -> ");
 

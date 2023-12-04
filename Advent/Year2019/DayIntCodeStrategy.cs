@@ -12,7 +12,7 @@ namespace Advent.Year2019
 
 		protected IntCode CreateProgram(Func<bool> inputReady, Func<long> input, Action<long> output) => new IntCode(m_input, inputReady, input, output);
 
-		protected sealed override void ParseInputLine(string line)
+		protected sealed override void ParseInputLine(string line, int lineNum)
 		{
 			m_input = line.Split(',').Select(long.Parse).ToArray();
 		}

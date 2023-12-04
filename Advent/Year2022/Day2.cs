@@ -42,7 +42,7 @@ namespace Advent.Year2022
         List<(RPS, RPS)> m_plays = new();
         List<(RPS, Result)> m_results = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             var split = line.Split(' ');
             var opp = (RPS)(split[0][0] - 'A');

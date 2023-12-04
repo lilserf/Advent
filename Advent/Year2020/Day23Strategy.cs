@@ -40,7 +40,7 @@ namespace Advent.Year2020
 			m_cups[id] = m_tail;
 		}
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			m_head = null;
 			m_tail = null;
@@ -145,7 +145,7 @@ namespace Advent.Year2020
 
 		public override string Part2()
 		{
-			ParseInputLine("137826495");
+			ParseInputLine("137826495", 0);
 			//ParseInputLine("389125467");
 
 			for(int i=10; i <= 1000000; i++)

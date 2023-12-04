@@ -14,7 +14,7 @@ namespace Advent.Year2020
 
 		bool[][] m_map;
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			m_data.Add(line);
 		}

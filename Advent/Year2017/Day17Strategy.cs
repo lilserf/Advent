@@ -9,7 +9,7 @@ namespace Advent.Year2017
 {
 	class Day17Strategy : DayLineLoaderBasic
 	{
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			
 		}

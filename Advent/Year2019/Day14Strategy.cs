@@ -208,7 +208,7 @@ namespace Advent.Year2019
 		}
 
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			var halves = line.Split(new string[] { " => " }, StringSplitOptions.RemoveEmptyEntries);
 

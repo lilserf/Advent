@@ -191,7 +191,7 @@ namespace Advent.Year2021
             return $"Player 1 victories: {wins[0]}, Player 2 victories: {wins[1]}";
         }
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
         }
     }

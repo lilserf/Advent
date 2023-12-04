@@ -14,7 +14,7 @@ namespace Advent
         }
 
         protected override void ParseInputLinesBegin(StreamReader sr) => m_loaderRunner.ParseInputLinesBegin(sr);
-        protected override void ParseInputLine(string line) => m_loaderRunner.ParseInputLine(line);
+        protected override void ParseInputLine(string line, int lineNum) => m_loaderRunner.ParseInputLine(line, lineNum);
         protected override void ParseInputLinesEnd(StreamReader sr) => m_loaderRunner.ParseInputLinesEnd(sr);
 
         public override string Part1() => m_loaderRunner.Part1();

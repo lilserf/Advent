@@ -98,7 +98,7 @@ namespace Advent.Year2019
 			return m_bodies["YOU"].Parent.SantaDistance.ToString();
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			string[] names = line.Split(')');
 

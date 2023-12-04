@@ -114,7 +114,7 @@ namespace Advent.Year2017
 		}
 
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			
 		}

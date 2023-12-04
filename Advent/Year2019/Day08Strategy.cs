@@ -71,7 +71,7 @@ namespace Advent.Year2019
 			return image.Aggregate("", (s, x) => s += x + "\n");
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			int curr = 0;
 

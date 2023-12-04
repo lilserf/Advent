@@ -51,7 +51,7 @@ namespace Advent.Year2021
         int m_nextId = 0;
         Scanner m_currScanner;
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             if (string.IsNullOrWhiteSpace(line))
                 return;

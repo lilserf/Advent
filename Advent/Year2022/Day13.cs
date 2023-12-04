@@ -99,7 +99,7 @@ namespace Advent.Year2022
 
         List<List<Object>> m_pairs = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             if (!string.IsNullOrEmpty(line))
             {

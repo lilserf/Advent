@@ -13,7 +13,7 @@ namespace Advent.Year2022
         Dictionary<Vec2, Vec2> m_sensors = new();
         Dictionary<Vec2, int> m_distances = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             Regex reg = new Regex(@"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)");
 

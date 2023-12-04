@@ -11,7 +11,7 @@ namespace Advent.Year2020
 	{
 		List<long> m_data = new List<long>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			m_data.Add(long.Parse(line));
 		}

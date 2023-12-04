@@ -13,7 +13,7 @@ namespace Advent.Year2017
 	{
 		List<string> m_data = new List<string>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			var splits = line.Split(',');
 			m_data.AddRange(splits);

@@ -53,7 +53,7 @@ namespace Advent.Year2019
 			return output;
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			m_program = line.Split(',').Select(s => long.Parse(s)).ToArray();
 		}

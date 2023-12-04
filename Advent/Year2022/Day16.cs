@@ -30,7 +30,7 @@ namespace Advent.Year2022
 
         Dictionary<string, Room> m_rooms = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             Regex reg = new Regex(@"Valve (\w+) has flow rate=(\d+); tunnels? leads? to valves? (.*)");
 

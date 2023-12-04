@@ -179,7 +179,7 @@ namespace Advent.Year2019
 			return best.ToString() + " : " + bestScore;
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			var bits = line.Split(',');
 

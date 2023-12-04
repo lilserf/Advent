@@ -16,7 +16,7 @@ namespace Advent.Year2020
 
 		List<int> m_buses2 = new List<int>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			if (m_earliest == 0)
 				m_earliest = int.Parse(line);

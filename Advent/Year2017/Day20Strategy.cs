@@ -67,7 +67,7 @@ namespace Advent.Year2017
 		}
 
 		int m_currId = 0;
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			var matches = Regex.Match(line, @"p=<(-?\d+),(-?\d+),(-?\d+)>, v=<(-?\d+),(-?\d+),(-?\d+)>, a=<(-?\d+),(-?\d+),(-?\d+)>");
 			if(matches.Success)

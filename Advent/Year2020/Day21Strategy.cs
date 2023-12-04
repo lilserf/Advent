@@ -25,7 +25,7 @@ namespace Advent.Year2020
 	{
 		List<Item> m_items = new List<Item>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			var match = Regex.Match(line, @"(.*) \(contains (.*)\)");
 

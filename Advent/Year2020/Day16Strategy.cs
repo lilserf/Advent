@@ -42,7 +42,7 @@ namespace Advent.Year2020
 		List<int> m_yourTicket = new List<int>();
 		List<List<int>> m_tickets = new List<List<int>>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			if (line == string.Empty)
 				return;

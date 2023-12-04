@@ -171,7 +171,7 @@ namespace Advent.Year2019
 			return folded.InverseTransformIndex(2020).ToString();
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			ShuffleStep s = new ShuffleStep();
 			if(line.StartsWith("cut")) // cut X

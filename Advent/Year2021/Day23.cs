@@ -375,7 +375,7 @@ namespace Advent.Year2021
 
     internal class Day23 : DayLineLoaderBasic
     {
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             // Do nothing
         }

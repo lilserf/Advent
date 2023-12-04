@@ -74,7 +74,7 @@ namespace Advent.Year2022
     {
         List<Instruction> m_instructions = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             if(line.StartsWith("noop"))
             {

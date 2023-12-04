@@ -7,13 +7,13 @@ namespace Advent
     public interface IDayLineLoader
     {
         void ParseInputLinesBegin(StreamReader sr);
-        void ParseInputLine(string line);
+        void ParseInputLine(string line, int lineNum);
         void ParseInputLinesEnd(StreamReader sr);
     }
 
     public abstract class DayLineLoaderBasic : IDayLineLoader, IDayPartRunner
     {
-        public abstract void ParseInputLine(string line);
+        public abstract void ParseInputLine(string line, int lineNum);
         public virtual void ParseInputLinesBegin(StreamReader sr) {}
         public virtual void ParseInputLinesEnd(StreamReader sr) { }
 

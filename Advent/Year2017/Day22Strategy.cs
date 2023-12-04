@@ -21,7 +21,7 @@ namespace Advent.Year2017
 
 		Dictionary<Vec2, NodeState> m_map = new Dictionary<Vec2, NodeState>();
 		int m_count = 0;
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			for(int i=0; i < line.Length; i++)
 			{

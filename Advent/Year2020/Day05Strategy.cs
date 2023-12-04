@@ -39,7 +39,7 @@ namespace Advent.Year2020
 
 		Dictionary<string, int> m_passes = new Dictionary<string, int>();
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			int row = ComputeSpaceNum(line, 7, 0, NUM_ROWS-1, 'F', 'B');
 			int col = ComputeSpaceNum(line.Substring(7), 3, 0, 7, 'L', 'R');

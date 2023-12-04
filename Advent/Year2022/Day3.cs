@@ -12,7 +12,7 @@ namespace Advent.Year2022
     {
         List<string> m_lines = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             m_lines.Add(line);
         }

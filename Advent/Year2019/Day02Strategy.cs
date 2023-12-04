@@ -84,7 +84,7 @@ namespace Advent.Year2019
 			return "Error";
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			m_data = line.Split(',').Select(s => int.Parse(s)).ToArray();
 		}

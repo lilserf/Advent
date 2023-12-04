@@ -10,7 +10,7 @@ namespace Advent.Year2017
 	class Day23Strategy : DayLineLoaderBasic
 	{
 		List<string> m_data = new List<string>();
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			m_data.Add(line);
 		}

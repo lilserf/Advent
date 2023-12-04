@@ -14,7 +14,7 @@ namespace Advent.Year2022
 
         List<(int qty, int from, int to)> m_moves = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             var match = MatchLine(line, new Regex(@"move (\d+) from (\d+) to (\d+)"));
             if(match.Success)

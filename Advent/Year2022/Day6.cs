@@ -11,7 +11,7 @@ namespace Advent.Year2022
     {
         string m_input;
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             m_input = line;
         }

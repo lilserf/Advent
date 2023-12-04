@@ -49,7 +49,7 @@ namespace Advent.Year2020
 			m_data = new List<(PasswordPolicy, string)>();
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			var match = Regex.Match(line, @"(\d+)\-(\d+) ([a-z]): (.+)");
 

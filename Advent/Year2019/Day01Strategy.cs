@@ -54,7 +54,7 @@ namespace Advent.Year2019
 			return totalFuel.ToString();
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			m_masses.Add(int.Parse(line));
 		}

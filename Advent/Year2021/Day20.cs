@@ -15,7 +15,7 @@ namespace Advent.Year2021
 
         int m_currLine = 0;
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             if (string.IsNullOrWhiteSpace(line))
             {

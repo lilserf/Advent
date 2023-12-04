@@ -43,7 +43,7 @@ namespace Advent.Year2023
 
         List<Game> m_games = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             var a = line.Split(":");
             Game g = new Game();
@@ -79,16 +79,12 @@ namespace Advent.Year2023
         {
             Draw limit = new Draw() { Red = 12, Green = 13, Blue= 14 };
 
-            var valid = m_games.Where(x => x.Possible(limit));
-
-            return valid.Select(x => x.Id).Sum().ToString();
+            return m_games.Where(x => x.Possible(limit)).Select(x => x.Id).Sum().ToString();
         }
 
         public override string Part2()
         {
-            var powers = m_games.Select(x => x.MinRequired()).Select(y => y.Red * y.Green * y.Blue).Sum();
-
-            return powers.ToString();
+            return m_games.Select(x => x.MinRequired()).Select(y => y.Red * y.Green * y.Blue).Sum().ToString();
         }
     }
 }

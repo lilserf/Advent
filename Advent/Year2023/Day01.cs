@@ -62,7 +62,7 @@ namespace Advent.Year2023
             m_partAValues.Add(val);
         }
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             oldParseInput(line);
             List<(int, string)> m_found = new List<(int, string)>();

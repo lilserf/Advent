@@ -11,7 +11,7 @@ namespace Advent.Year2022
     {
         List<(Vec2, int)> m_path = new();
 
-        public override void ParseInputLine(string line)
+        public override void ParseInputLine(string line, int lineNum)
         {
             var split = line.Split(' ');
             Vec2 dir = Vec2.Zero;

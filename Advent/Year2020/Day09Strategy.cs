@@ -18,7 +18,7 @@ namespace Advent.Year2020
 
 		}
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			m_data.Enqueue(long.Parse(line));
 		}

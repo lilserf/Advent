@@ -197,7 +197,7 @@ namespace Advent.Year2019
 
 		static Regex s_regex = new Regex(@"<x=(-?\d*), y=(-?\d*), z=(-?\d*)>");
 
-		protected override void ParseInputLine(string line)
+		protected override void ParseInputLine(string line, int lineNum)
 		{
 			var match = MatchLine(line, s_regex);
 

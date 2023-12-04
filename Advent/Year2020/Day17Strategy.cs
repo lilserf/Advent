@@ -14,7 +14,7 @@ namespace Advent.Year2020
 		Dictionary<Vec3, char> m_data = new Dictionary<Vec3, char>();
 		Dictionary<Vec4, char> m_data4 = new Dictionary<Vec4, char>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			int col = 0;
 			foreach(var c in line)

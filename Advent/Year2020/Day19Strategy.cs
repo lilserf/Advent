@@ -204,7 +204,7 @@ namespace Advent.Year2020
 		Dictionary<int, Rule> m_rules = new Dictionary<int, Rule>();
 
 		bool _parsingRules = true;
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			if(string.IsNullOrEmpty(line))
 			{

@@ -10,7 +10,7 @@ namespace Advent.Year2020
 	class Day15Strategy : DayLineLoaderBasic
 	{
 		List<int> m_data = new List<int>();
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			var splits = line.Split(',');
 

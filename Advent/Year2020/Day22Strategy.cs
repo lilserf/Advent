@@ -19,7 +19,7 @@ namespace Advent.Year2020
 
 		Queue<int> m_currDeck = new Queue<int>();
 
-		public override void ParseInputLine(string line)
+		public override void ParseInputLine(string line, int lineNum)
 		{
 			if (string.IsNullOrWhiteSpace(line))
 				return;
