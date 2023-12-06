@@ -54,7 +54,7 @@ namespace Advent
 				{
 					testFiles.Add(check);
 				}
-                check = Path.Combine(filePath, $"day{day:D2}-test{i:D2}.txt");
+                check = Path.Combine(filePath, $"day{day:D2}-test{i}.txt");
                 if (File.Exists(check))
                 {
                     testFiles.Add(check);

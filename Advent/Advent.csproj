@@ -48,6 +48,9 @@
     <None Remove="inputs\2023\day02.txt" />
     <None Remove="inputs\2023\day03.txt" />
     <None Remove="inputs\2023\day04.txt" />
+    <None Remove="inputs\2023\day05-test0.txt" />
+    <None Remove="inputs\2023\day05.txt" />
+    <None Remove="inputs\2023\day06.txt" />
     <Content Include="inputs\2017\day14.txt" />
     <Content Include="inputs\2017\day15.txt" />
     <Content Include="inputs\2017\day16.txt" />
