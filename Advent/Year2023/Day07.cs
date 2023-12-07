@@ -173,7 +173,7 @@ namespace Advent.Year2023
             {
                 int rank = i + 1;
                 sum += m_hands[i].Bid * rank;
-                Console.WriteLine($"Rank {rank} : {m_hands[i].GradeHandWithJokers()} : {m_hands[i]}");
+                //Console.WriteLine($"Rank {rank} : {m_hands[i].GradeHandWithJokers()} : {m_hands[i]}");
             }
 
             return sum.ToString();
