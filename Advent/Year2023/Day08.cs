@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -58,32 +59,58 @@ namespace Advent.Year2023
 			return steps.ToString();
 		}
 
-		public override string Part2()
+		public (int, int) FindZ(string start)
 		{
-			Queue<string> curr = new Queue<string>(m_links.Keys.Where(x => x.EndsWith('A')));
+			(int first, int second) = (0, 0);
+			string curr = start;
+            int currDir = 0;
+            int steps = 0;
+            while (true)
+            {
+                var map = m_links[curr];
+                if (m_directions[currDir] == 'L')
+                    curr = map.Item1;
+                else
+                    curr = map.Item2;
 
-			int steps = 0;
-			int currDir = 0;
-			while (curr.Any(x => !x.EndsWith('Z')))
-			{
-				var c = curr.Dequeue();
-
-				//if(!c.EndsWith("Z"))
+				if(curr.EndsWith('Z'))
 				{
-					var map = m_links[c];
-					if (m_directions[currDir] == 'L')
-						c = map.Item1;
-					else
-						c = map.Item2;
-					curr.Enqueue(c);
+					if (first == 0)
+					{
+						first = steps;
+					}
+					else if (second == 0)
+					{
+						second = steps;
+						return (first, second);
+					}
 				}
 
-				currDir++;
-				currDir = currDir % m_directions.Count();
-				steps++;
+                currDir++;
+                currDir = currDir % m_directions.Count();
+                steps++;
+            }
+        }
+
+		public override string Part2()
+		{
+			var starts = (m_links.Keys.Where(x => x.EndsWith('A')));
+
+			var steps = starts.Select(FindZ).ToList();
+
+			for(int i=0; i < starts.Count(); i++)
+			{
+				Console.WriteLine($"{starts.ElementAt(i)} hits Z at {steps.ElementAt(i).Item1} and {steps.ElementAt(i).Item2}");
 			}
 
-			return steps.ToString();
+			long mult = 1;
+			foreach(var x in steps)
+			{
+				// some kind of off-by-one in FindZ means I need this +1
+				mult = LcmGcd.lcm(mult, x.Item1+1);
+			}
+
+			return mult.ToString();
 		}
 	}
 }
