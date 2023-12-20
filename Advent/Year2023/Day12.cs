@@ -57,19 +57,19 @@ namespace Advent.Year2023
             yield return part;
         }
 
-
+        int NumArrangements(Row r)
+        {
+            return 0;
+        }
 
         public override string Part1()
         {
             foreach(Row r in m_rows)
             {
-                Console.WriteLine(r.Springs);
-                //Console.WriteLine($"Broken: {r.BrokenGroups.Aggregate("", (acc, x) => acc += x + ",")}");
-                //Console.WriteLine($"Unknown: {r.UnknownGroups.Aggregate("", (acc, x) => acc += x + ",")}");
-                Console.WriteLine($"JustStuff: {r.JustStuff.Aggregate("", (acc, x) => acc += x + ",")}");
+                var arr = NumArrangements(r);
             }
 
-            return "";
+            return $"";
         }
 
         public override string Part2()
